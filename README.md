@@ -8,7 +8,7 @@ Short summary on functionality and used technologies.
 
 ## Used SharePoint Framework Version
 
-![version](https://img.shields.io/badge/version-1.13-green.svg)
+![version](https://img.shields.io/badge/version-1.16.0-green.svg)
 
 ## Applies to
 
@@ -31,8 +31,7 @@ Short summary on functionality and used technologies.
 
 | Version | Date             | Comments        |
 | ------- | ---------------- | --------------- |
-| 1.1     | March 10, 2021   | Update comment  |
-| 1.0     | January 29, 2021 | Initial release |
+| 1.0     | December 29, 2022 | Initial release |
 
 ## Disclaimer
 

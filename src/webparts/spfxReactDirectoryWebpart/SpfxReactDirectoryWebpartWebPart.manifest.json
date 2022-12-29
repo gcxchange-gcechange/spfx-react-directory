@@ -20,7 +20,7 @@
     "group": { "default": "Advanced" },
     "title": { "default": "spfx-react-directory-webpart" },
     "description": { "default": "spfx-react-directory-webpart description" },
-    "officeFabricIconFontName": "Page",
+    "officeFabricIconFontName": "ProfileSearch",
     "properties": {
       "description": "spfx-react-directory-webpart"
     }
