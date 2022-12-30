@@ -4,7 +4,7 @@ import * as strings from "SpfxReactDirectoryWebpartWebPartStrings";
 // import * as french from "../loc/fr-fr.js";
 
 
-const english = require('../loc/fr-fr.js');
+const english = require('../loc/en-en.js');
 const french = require('../loc/fr-fr.js');
 
 
