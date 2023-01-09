@@ -3,11 +3,11 @@ import { ISPServices } from "./ISPServices";
 import {sp} from "@pnp/sp";
 
 export class spservices implements ISPServices {
-  //constructor(private context: WebPartContext) {
-//     sp.setup({
-//       spfxContext: this.context,
-//     });
-//   }
+  constructor(private context: WebPartContext) {
+   sp.setup({
+      spfxContext: this.context,
+    });
+  }
 
 //   public async searchUsersNew(
 //     context: unknown,
