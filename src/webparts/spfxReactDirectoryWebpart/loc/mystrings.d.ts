@@ -1,4 +1,5 @@
 declare interface ISpfxReactDirectoryWebpartWebPartStrings {
+  TitleFieldLabel: string;
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DescriptionFieldLabel: string;
@@ -10,6 +11,23 @@ declare interface ISpfxReactDirectoryWebpartWebPartStrings {
   AppTeamsTabEnvironment: string;
   AppOfficeEnvironment: string;
   AppOutlookEnvironment: string;
+
+  SearchPlaceHolder: string;
+  PropertyPaneDescription: string;
+  BasicGroupName: string;
+  TitleFieldLabel: string;
+  PagingLabel: string;
+  DirectoryMessage: string;
+  LoadingText: string;
+  SearchBoxLabel: string;
+  SendEmailLabel: string;
+  NoUserFoundLabelText: string;
+  NoUserFoundImageAltText: string;
+  NoUserFoundEmailSubject: string;
+  NoUserFoundEmailBody: string;
+  NoUserFoundEmail: string;
+
+  SearchButtonLabel:String;
 }
 
 declare module 'SpfxReactDirectoryWebpartWebPartStrings' {
