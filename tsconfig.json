@@ -1,3 +1,5 @@
+
+// New Version*
 {
   "extends": "./node_modules/@microsoft/rush-stack-compiler-4.5/includes/tsconfig-web.json",
   "compilerOptions": {
@@ -13,24 +15,41 @@
     "outDir": "lib",
     "inlineSources": false,
     "strictNullChecks": false,
-    "noImplicitAny": true,
+    "noUnusedLocals": false,
+    "noImplicitAny": false,
 
-    "typeRoots": [
-      "./node_modules/@types",
-      "./node_modules/@microsoft"
-    ],
-    "types": [
-      "webpack-env"
-    ],
-    "lib": [
-      "es5",
-      "dom",
-      "es2015.collection",
-      "es2015.promise"
-    ]
+    "typeRoots": ["./node_modules/@types", "./node_modules/@microsoft"],
+    "types": ["webpack-env", "es6-promise"],
+    "lib": ["es5", "dom", "es2015.collection", "es2015.promise"]
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx"
   ]
 }
+// Old Version*
+
+// {
+//   "extends": "./node_modules/@microsoft/rush-stack-compiler-4.5/includes/tsconfig-web.json",
+//   "compilerOptions": {
+//     "target": "es5",
+//     "forceConsistentCasingInFileNames": true,
+//     "module": "esnext",
+//     "moduleResolution": "node",
+//     "jsx": "react",
+//     "declaration": true,
+//     "sourceMap": true,
+//     "experimentalDecorators": true,
+//     "skipLibCheck": true,
+//     "outDir": "lib",
+//     "inlineSources": false,
+//     "strictNullChecks": false,
+//     "noUnusedLocals": false,
+//     "resolveJsonModule": true,
+//     "typeRoots": ["./node_modules/@types", "./node_modules/@microsoft"],
+//     "types": ["es6-promise", "webpack-env"],
+//     "lib": ["es5", "dom", "es2015.collection", "ES2015"]
+//   },
+//   "include": ["src/**/*.ts", "src/**/*.tsx"],
+//   "exclude": ["node_modules", "lib"]
+// }
