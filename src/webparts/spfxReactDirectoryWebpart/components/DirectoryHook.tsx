@@ -54,6 +54,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     searchString: "FirstName",
     searchText: "",
   });
+    const hidingUsers: string[] = props.hidingUsers && props.hidingUsers.length > 0 ? props.hidingUsers.split("/") : [];
 
   // Paging
   const [pagedItems, setPagedItems] = useState<unknown[]>([]);
@@ -120,28 +121,13 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     let users = null;
     if (initialSearch) {
       if (props.searchFirstName)
-        users = await _services.searchUsersNew(
-          props.context,
-          "",
-          `FirstName:a*`,
-          false
-        );
-      else users = await _services.searchUsersNew(props.context, "a", "", true);
+        users = await _services.searchUsersNew(props.context, "", `FirstName:a*`, false, hidingUsers);
+      else users = await _services.searchUsersNew(props.context, "a", "", true, hidingUsers);
     } else {
       if (props.searchFirstName)
-        users = await _services.searchUsersNew(
-          props.context,
-          "",
-          `FirstName:${alphaKey}*`,
-          false
-        );
+        users = await _services.searchUsersNew(props.context, "", `FirstName:${alphaKey}*`, false, hidingUsers);
       else
-        users = await _services.searchUsersNew(
-          props.context,
-          `${alphaKey}`,
-          "",
-          true
-        );
+        users = await _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers);
     }
     setstate({
       ...state,
@@ -207,12 +193,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
           });
         }
         console.log(qryText);
-        const users = await _services.searchUsersNew(
-          props.context,
-          "",
-          qryText,
-          false
-        );
+        const users = await _services.searchUsersNew(props.context, "", qryText, false, hidingUsers);
         setstate({
           ...state,
           searchText: searchText,

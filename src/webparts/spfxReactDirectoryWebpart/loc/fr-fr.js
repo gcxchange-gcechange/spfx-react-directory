@@ -10,7 +10,7 @@ define([], function () {
     LoadingText: "Recherche en cours. Veuillez patienter...",
     SearchBoxLabel: "Chercher un collègue (Prénom)",
     SearchButtonLabel: "Recherche",
-    SendEmailLabel: "Send Email F",
+    SendEmailLabel:"Envoyer un courriel",
     NoUserFoundLabelText: "Inviter un collègue",
     NoUserFoundImageAltText: "Un yeti qui se cache",
     NoUserFoundEmail:

@@ -21,6 +21,7 @@ export interface ISpfxReactDirectoryWebpartWebPartProps {
   clearTextSearchProps: string;
   pageSize: number;
   prefLang: string;
+  hidingUsers: string;
 }
 
 export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebPart<ISpfxReactDirectoryWebpartWebPartProps> {
@@ -28,20 +29,18 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
   private _environmentMessage: string = "";
 
   public render(): void {
-    const element: React.ReactElement<IReactDirectoryProps> =
-      React.createElement(DirectoryHook, {
-        title: this.properties.title,
-        context: this.context,
-        searchFirstName: this.properties.searchFirstName,
-        displayMode: this.displayMode,
-        updateProperty: (value: string) => {
-          this.properties.title = value;
-        },
-        searchProps: this.properties.searchProps,
-        clearTextSearchProps: this.properties.clearTextSearchProps,
-        pageSize: this.properties.pageSize,
-        prefLang: this.properties.prefLang,
-      });
+    const element: React.ReactElement<IReactDirectoryProps> = React.createElement(DirectoryHook, {
+      title: this.properties.title,
+      context: this.context,
+      displayMode: this.displayMode,
+      updateProperty: (value: string) => {
+        this.properties.title = value;
+      },
+      pageSize: this.properties.pageSize,
+      prefLang: this.properties.prefLang,
+      hidingUsers: this.properties.hidingUsers,
+      searchFirstName: this.properties.searchFirstName,
+    });
 
     ReactDom.render(element, this.domElement);
   }
@@ -55,38 +54,34 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
   private _getEnvironmentMessage(): Promise<string> {
     if (!!this.context.sdks.microsoftTeams) {
       // running in Teams, office.com or Outlook
-      return this.context.sdks.microsoftTeams.teamsJs.app
-        .getContext()
-        .then((context) => {
-          let environmentMessage: string = "";
-          switch (context.app.host.name) {
-            case "Office": // running in Office
-              environmentMessage = this.context.isServedFromLocalhost
-                ? strings.AppLocalEnvironmentOffice
-                : strings.AppOfficeEnvironment;
-              break;
-            case "Outlook": // running in Outlook
-              environmentMessage = this.context.isServedFromLocalhost
-                ? strings.AppLocalEnvironmentOutlook
-                : strings.AppOutlookEnvironment;
-              break;
-            case "Teams": // running in Teams
-              environmentMessage = this.context.isServedFromLocalhost
-                ? strings.AppLocalEnvironmentTeams
-                : strings.AppTeamsTabEnvironment;
-              break;
-            default:
-              throw new Error("Unknown host");
-          }
+      return this.context.sdks.microsoftTeams.teamsJs.app.getContext().then((context) => {
+        let environmentMessage: string = "";
+        switch (context.app.host.name) {
+          case "Office": // running in Office
+            environmentMessage = this.context.isServedFromLocalhost
+              ? strings.AppLocalEnvironmentOffice
+              : strings.AppOfficeEnvironment;
+            break;
+          case "Outlook": // running in Outlook
+            environmentMessage = this.context.isServedFromLocalhost
+              ? strings.AppLocalEnvironmentOutlook
+              : strings.AppOutlookEnvironment;
+            break;
+          case "Teams": // running in Teams
+            environmentMessage = this.context.isServedFromLocalhost
+              ? strings.AppLocalEnvironmentTeams
+              : strings.AppTeamsTabEnvironment;
+            break;
+          default:
+            throw new Error("Unknown host");
+        }
 
-          return environmentMessage;
-        });
+        return environmentMessage;
+      });
     }
 
     return Promise.resolve(
-      this.context.isServedFromLocalhost
-        ? strings.AppLocalEnvironmentSharePoint
-        : strings.AppSharePointEnvironment
+      this.context.isServedFromLocalhost ? strings.AppLocalEnvironmentSharePoint : strings.AppSharePointEnvironment
     );
   }
 
@@ -99,15 +94,9 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
     const { semanticColors } = currentTheme;
 
     if (semanticColors) {
-      this.domElement.style.setProperty(
-        "--bodyText",
-        semanticColors.bodyText || null
-      );
+      this.domElement.style.setProperty("--bodyText", semanticColors.bodyText || null);
       this.domElement.style.setProperty("--link", semanticColors.link || null);
-      this.domElement.style.setProperty(
-        "--linkHovered",
-        semanticColors.linkHovered || null
-      );
+      this.domElement.style.setProperty("--linkHovered", semanticColors.linkHovered || null);
     }
   }
 
@@ -151,9 +140,9 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField("title", {
-                  label: strings.TitleFieldLabel,
-                }),
+                // PropertyPaneTextField("title", {
+                //   label: strings.TitleFieldLabel,
+                // }),
                 PropertyPaneDropdown("prefLang", {
                   label: "Preferred Language",
                   options: [
@@ -162,7 +151,12 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
                     { key: "fr-fr", text: "Français" },
                   ],
                 }),
-
+                PropertyPaneTextField("hidingUsers", {
+                  label: "Users not in serach",
+                  description: "Enter the user ids of the users who are not needed in the search separated by '/' ",
+                  multiline:true,
+                  rows: 10,
+                }),
                 PropertyPaneSlider("pageSize", {
                   label: "Results per page",
                   showValue: true,
