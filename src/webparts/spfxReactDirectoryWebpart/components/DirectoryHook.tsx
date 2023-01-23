@@ -192,7 +192,6 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
             else qryText += `${srchprop}:${finalSearchText}* OR `;
           });
         }
-        console.log(qryText);
         const users = await _services.searchUsersNew(props.context, "", qryText, false, hidingUsers);
         setstate({
           ...state,
