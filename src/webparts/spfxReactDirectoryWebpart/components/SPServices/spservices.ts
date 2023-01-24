@@ -1,13 +1,7 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
-import {
-  sp,
-  SearchQuery,
-  SearchResults,
-  SortDirection,
-} from "@pnp/sp";
+import { sp, SearchQuery, SearchResults, SortDirection } from "@pnp/sp";
 
 import { ISPServices } from "./ISPServices";
-
 
 export class spservices implements ISPServices {
   constructor(private context: WebPartContext) {
@@ -22,8 +16,7 @@ export class spservices implements ISPServices {
     srchQry: string,
     isInitialSearch: boolean,
     hidingUsers: string[],
-    startItem: number,
-    endItem: number
+    pageNumber?: number
   ): Promise<SearchResults> {
     let qrytext: string = "";
     const client = await context.msGraphClientFactory.getClient();
@@ -54,10 +47,9 @@ export class spservices implements ISPServices {
       "GroupId",
     ];
     try {
-      const users = await sp.search(<SearchQuery>{
+      let users = await sp.search(<SearchQuery>{
         Querytext: qrytext,
-        StartRow: startItem,
-        RowLimit: endItem,
+        RowLimit: 500,
         EnableInterleaving: true,
         SelectProperties: searchProperties,
         SourceId: "b09a7990-05ea-4af9-81ef-edfab16c4e31",

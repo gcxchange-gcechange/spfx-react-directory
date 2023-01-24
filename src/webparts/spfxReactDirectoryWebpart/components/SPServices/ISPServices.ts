@@ -6,7 +6,6 @@ export interface ISPServices {
     srchQry: string,
     isInitialSearch: boolean,
     hidingUsers: any,
-    startItem: number,
-    endItem: number
+    pageNumber?: number
   );
 }

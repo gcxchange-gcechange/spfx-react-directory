@@ -51,35 +51,18 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     searchText: "",
   });
   const hidingUsers: string[] = props.hidingUsers && props.hidingUsers.length > 0 ? props.hidingUsers.split("/") : [];
-  // const startItem:number=0;
-  // const endItem:number=props.pageSize
+
   // Paging
   const [pagedItems, setPagedItems] = useState<unknown[]>([]);
   const [pageSize, setPageSize] = useState<number>(props.pageSize ? props.pageSize : 10);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [startItem, setStartItem] = useState<number>(0);
-  const [endItem, setEndItem] = useState<number>(props.pageSize);
 
   const _onPageUpdate = async (pageno?: number) => {
     const currentPge = pageno ? pageno : currentPage;
-    // const startItem = (currentPge - 1) * pageSize;
-    // const endItem = currentPge * pageSize;
-    // const filItems = _.slice(state.users.PrimarySearchResults, startItem, endItem);
-    // const users = await _services.searchUsersNew(
-    //   props.context,
-    //   "a",
-    //   "",
-    //   true,
-    //   hidingUsers,
-    //   startItem,
-    //   endItem
-    // );
-    // const filItems=users.PrimarySearchResults;
-
-    setStartItem((currentPge - 1) * pageSize);
-    setEndItem(currentPge * pageSize);
+    const startItem = (currentPge - 1) * pageSize;
+    const endItem = currentPge * pageSize;
+    const filItems = _.slice(state.users, startItem, endItem);
     setCurrentPage(currentPge);
-    const filItems = state.users.PrimarySearchResults;
     setPagedItems(filItems);
   };
 
@@ -127,37 +110,18 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     let users = null;
     if (initialSearch) {
       if (props.searchFirstName)
-        users = await _services.searchUsersNew(
-          props.context,
-          "",
-          `FirstName:a*`,
-          false,
-          hidingUsers,
-          startItem,
-          endItem
-        );
-      else users = await _services.searchUsersNew(props.context, "a", "", true, hidingUsers, startItem, endItem);
+        users = await _services.searchUsersNew(props.context, "", `FirstName:a*`, false, hidingUsers);
+      else users = await _services.searchUsersNew(props.context, "a", "", true, hidingUsers);
     } else {
       if (props.searchFirstName)
-        users = await _services.searchUsersNew(
-          props.context,
-          "",
-          `FirstName:${alphaKey}*`,
-          false,
-          hidingUsers,
-          startItem,
-          endItem
-        );
-      else
-        users = await _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers, startItem, endItem);
+        users = await _services.searchUsersNew(props.context, "", `FirstName:${alphaKey}*`, false, hidingUsers);
+      else users = await _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers);
     }
     setstate({
       ...state,
       searchText: "",
       indexSelectedKey: initialSearch ? "A" : state.indexSelectedKey,
-      // users:
-      //   users && users.PrimarySearchResults ? users.PrimarySearchResults : null,
-      users: users ? users : null,
+      users: users && users.PrimarySearchResults ? users.PrimarySearchResults : null,
       isLoading: false,
       errorMessage: "",
       hasError: false,
@@ -211,24 +175,12 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
             else qryText += `${srchprop}:${finalSearchText}* OR `;
           });
         }
-        const users = await _services.searchUsersNew(
-          props.context,
-          "",
-          qryText,
-          false,
-          hidingUsers,
-          startItem,
-          endItem
-        );
+        const users = await _services.searchUsersNew(props.context, "", qryText, false, hidingUsers);
         setstate({
           ...state,
           searchText: searchText,
           indexSelectedKey: null,
-          // users:
-          //   users && users.PrimarySearchResults
-          //     ? users.PrimarySearchResults
-          //     : null,
-          users: users && users.PrimarySearchResults ? users : null,
+          users: users && users.PrimarySearchResults ? users.PrimarySearchResults : null,
           isLoading: false,
           errorMessage: "",
           hasError: false,
@@ -278,13 +230,6 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
   }, [alphaKey]);
 
   useEffect(() => {
-    setstate({
-      ...state,
-      users: _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers, startItem, endItem),
-    });
-  }, [currentPage]);
-
-  useEffect(() => {
     _loadAlphabets();
     _searchByAlphabets(true)
       .then((data) => {
@@ -294,16 +239,6 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
         /* perform error handling if desired */
       });
   }, [props]);
-
-  // useEffect(() => {
-  //   _searchUsers()
-  //     .then((data) => {
-  //       return data;
-  //     })
-  //     .catch((err) => {
-  //       /* perform error handling if desired */
-  //     });
-  // }, [startItem,endItem]);
 
   const itemAlignmentsStackTokens: IStackTokens = {
     childrenGap: 20,
@@ -398,7 +333,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
                 <>
                   <div style={{ width: "100%", display: "inline-block" }}>
                     <Paging
-                      totalItems={state.users.TotalRows}
+                      totalItems={state.users.length}
                       itemsCountPerPage={pageSize}
                       onPageUpdate={_onPageUpdate}
                       currentPage={currentPage}
