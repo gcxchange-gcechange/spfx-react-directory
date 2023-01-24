@@ -22,7 +22,8 @@
     "description": { "default": "spfx-react-directory-webpart description" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "spfx-react-directory-webpart"
+      "description": "spfx-react-directory-webpart",
+      "pageSize":4
     }
   }]
 }
