@@ -32,17 +32,13 @@ import { spservices } from "./SPServices/spservices";
 import { PersonaCard } from "./PersonaCard/PersonaCard";
 import Paging from "./Pagination/Paging";
 
-
 const wrapStackTokens: IStackTokens = { childrenGap: 30 };
 
 const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
-  const strings: ISpfxReactDirectoryWebpartWebPartStrings = SelectLanguage(
-    props.prefLang
-  );
+  const strings: ISpfxReactDirectoryWebpartWebPartStrings = SelectLanguage(props.prefLang);
   let _services: ISPServices = null;
   _services = new spservices(props.context);
 
-  
   const [az, setaz] = useState<string[]>([]);
   const [alphaKey, setalphaKey] = useState<string>("A");
   const [state, setstate] = useState<IReactDirectoryState>({
@@ -54,30 +50,45 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     searchString: "FirstName",
     searchText: "",
   });
-    const hidingUsers: string[] = props.hidingUsers && props.hidingUsers.length > 0 ? props.hidingUsers.split("/") : [];
-
+  const hidingUsers: string[] = props.hidingUsers && props.hidingUsers.length > 0 ? props.hidingUsers.split("/") : [];
+  // const startItem:number=0;
+  // const endItem:number=props.pageSize
   // Paging
   const [pagedItems, setPagedItems] = useState<unknown[]>([]);
-  const [pageSize, setPageSize] = useState<number>(
-    props.pageSize ? props.pageSize : 10
-  );
+  const [pageSize, setPageSize] = useState<number>(props.pageSize ? props.pageSize : 10);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [startItem, setStartItem] = useState<number>(0);
+  const [endItem, setEndItem] = useState<number>(props.pageSize);
 
-  const _onPageUpdate = async (pageno?: number)=> {
+  const _onPageUpdate = async (pageno?: number) => {
     const currentPge = pageno ? pageno : currentPage;
-    const startItem = (currentPge - 1) * pageSize;
-    const endItem = currentPge * pageSize;
-    const filItems = _.slice(state.users, startItem, endItem);
+    // const startItem = (currentPge - 1) * pageSize;
+    // const endItem = currentPge * pageSize;
+    // const filItems = _.slice(state.users.PrimarySearchResults, startItem, endItem);
+    // const users = await _services.searchUsersNew(
+    //   props.context,
+    //   "a",
+    //   "",
+    //   true,
+    //   hidingUsers,
+    //   startItem,
+    //   endItem
+    // );
+    // const filItems=users.PrimarySearchResults;
+
+    setStartItem((currentPge - 1) * pageSize);
+    setEndItem(currentPge * pageSize);
     setCurrentPage(currentPge);
+    const filItems = state.users.PrimarySearchResults;
     setPagedItems(filItems);
   };
 
   const diretoryGrid =
     pagedItems && pagedItems.length > 0
-      ? pagedItems.map((user: any,index:number) => {
+      ? pagedItems.map((user: any, index: number) => {
           return (
             <PersonaCard
-            key={index}
+              key={index}
               context={props.context}
               prefLang={props.prefLang}
               profileProperties={{
@@ -87,9 +98,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
                 Email: user.WorkEmail,
                 Department: user.Department,
                 WorkPhone: user.WorkPhone,
-                Location: user.OfficeNumber
-                  ? user.OfficeNumber
-                  : user.BaseOfficeLocation,
+                Location: user.OfficeNumber ? user.OfficeNumber : user.BaseOfficeLocation,
               }}
             />
           );
@@ -103,10 +112,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     setaz(alphabets);
   };
 
-  const _alphabetChange = async (
-    item?: PivotItem,
-    ev?: React.MouseEvent<HTMLElement>
-  ) => {
+  const _alphabetChange = async (item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) => {
     setstate({
       ...state,
       searchText: "",
@@ -121,20 +127,37 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     let users = null;
     if (initialSearch) {
       if (props.searchFirstName)
-        users = await _services.searchUsersNew(props.context, "", `FirstName:a*`, false, hidingUsers);
-      else users = await _services.searchUsersNew(props.context, "a", "", true, hidingUsers);
+        users = await _services.searchUsersNew(
+          props.context,
+          "",
+          `FirstName:a*`,
+          false,
+          hidingUsers,
+          startItem,
+          endItem
+        );
+      else users = await _services.searchUsersNew(props.context, "a", "", true, hidingUsers, startItem, endItem);
     } else {
       if (props.searchFirstName)
-        users = await _services.searchUsersNew(props.context, "", `FirstName:${alphaKey}*`, false, hidingUsers);
+        users = await _services.searchUsersNew(
+          props.context,
+          "",
+          `FirstName:${alphaKey}*`,
+          false,
+          hidingUsers,
+          startItem,
+          endItem
+        );
       else
-        users = await _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers);
+        users = await _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers, startItem, endItem);
     }
     setstate({
       ...state,
       searchText: "",
       indexSelectedKey: initialSearch ? "A" : state.indexSelectedKey,
-      users:
-        users && users.PrimarySearchResults ? users.PrimarySearchResults : null,
+      // users:
+      //   users && users.PrimarySearchResults ? users.PrimarySearchResults : null,
+      users: users ? users : null,
       isLoading: false,
       errorMessage: "",
       hasError: false,
@@ -155,9 +178,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
             : ["FirstName", "LastName", "PreferredName"];
 
         let qryText: string = "";
-        const finalSearchText: string = searchText
-          ? searchText.replace(/ /g, "+")
-          : searchText;
+        const finalSearchText: string = searchText ? searchText.replace(/ /g, "+") : searchText;
         if (props.clearTextSearchProps) {
           const tmpCTProps: string[] =
             props.clearTextSearchProps.indexOf(",") >= 0
@@ -180,27 +201,34 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
             });
           } else {
             searchProps.map((srchprop, index) => {
-              if (index === searchProps.length - 1)
-                qryText += `${srchprop}:${finalSearchText}*`;
+              if (index === searchProps.length - 1) qryText += `${srchprop}:${finalSearchText}*`;
               else qryText += `${srchprop}:${finalSearchText}* OR `;
             });
           }
         } else {
           searchProps.map((srchprop, index) => {
-            if (index === searchProps.length - 1)
-              qryText += `${srchprop}:${finalSearchText}*`;
+            if (index === searchProps.length - 1) qryText += `${srchprop}:${finalSearchText}*`;
             else qryText += `${srchprop}:${finalSearchText}* OR `;
           });
         }
-        const users = await _services.searchUsersNew(props.context, "", qryText, false, hidingUsers);
+        const users = await _services.searchUsersNew(
+          props.context,
+          "",
+          qryText,
+          false,
+          hidingUsers,
+          startItem,
+          endItem
+        );
         setstate({
           ...state,
           searchText: searchText,
           indexSelectedKey: null,
-          users:
-            users && users.PrimarySearchResults
-              ? users.PrimarySearchResults
-              : null,
+          // users:
+          //   users && users.PrimarySearchResults
+          //     ? users.PrimarySearchResults
+          //     : null,
+          users: users && users.PrimarySearchResults ? users : null,
           isLoading: false,
           errorMessage: "",
           hasError: false,
@@ -250,6 +278,13 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
   }, [alphaKey]);
 
   useEffect(() => {
+    setstate({
+      ...state,
+      users: _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers, startItem, endItem),
+    });
+  }, [currentPage]);
+
+  useEffect(() => {
     _loadAlphabets();
     _searchByAlphabets(true)
       .then((data) => {
@@ -259,6 +294,16 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
         /* perform error handling if desired */
       });
   }, [props]);
+
+  // useEffect(() => {
+  //   _searchUsers()
+  //     .then((data) => {
+  //       return data;
+  //     })
+  //     .catch((err) => {
+  //       /* perform error handling if desired */
+  //     });
+  // }, [startItem,endItem]);
 
   const itemAlignmentsStackTokens: IStackTokens = {
     childrenGap: 20,
@@ -284,7 +329,6 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
 
   return (
     <div className={styles.reactDirectory}>
-      
       <div className={styles.searchBox}>
         <Stack horizontal tokens={itemAlignmentsStackTokens}>
           <Stack.Item order={1} styles={stackItemStyles}>
@@ -302,9 +346,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
             />
           </Stack.Item>
           <Stack.Item order={2}>
-            <PrimaryButton onClick={_searchUsers}>
-              {strings.SearchButtonLabel}
-            </PrimaryButton>
+            <PrimaryButton onClick={_searchUsers}>{strings.SearchButtonLabel}</PrimaryButton>
           </Stack.Item>
         </Stack>
 
@@ -318,9 +360,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
               onLinkClick={_alphabetChange}
               linkSize={PivotLinkSize.normal}>
               {az.map((index: string) => {
-                return (
-                  <PivotItem headerText={index} itemKey={index} key={index} />
-                );
+                return <PivotItem headerText={index} itemKey={index} key={index} />;
               })}
             </Pivot>
           }
@@ -334,9 +374,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
         <>
           {state.hasError ? (
             <div style={{ marginTop: "10px" }}>
-              <MessageBar messageBarType={MessageBarType.error}>
-                {state.errorMessage}
-              </MessageBar>
+              <MessageBar messageBarType={MessageBarType.error}>{state.errorMessage}</MessageBar>
             </div>
           ) : (
             <>
@@ -345,22 +383,13 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
                   <Stack horizontal tokens={itemAlignmentsStackTokens}>
                     <Stack.Item order={1} styles={stackItemStyles}>
                       <span>
-                        <Image
-                          {...imageProps}
-                          alt={strings.NoUserFoundImageAltText}
-                        />
+                        <Image {...imageProps} alt={strings.NoUserFoundImageAltText} />
                       </span>
                     </Stack.Item>
                     <Stack.Item order={2}>
                       <span>
-                        <p>
-                          {
-                            parse(strings.DirectoryMessage)
-                          }
-                        </p>
-                        <PrimaryButton href={strings.NoUserFoundEmail}>
-                          {strings.NoUserFoundLabelText}
-                        </PrimaryButton>
+                        <p>{parse(strings.DirectoryMessage)}</p>
+                        <PrimaryButton href={strings.NoUserFoundEmail}>{strings.NoUserFoundLabelText}</PrimaryButton>
                       </span>
                     </Stack.Item>
                   </Stack>
@@ -369,31 +398,25 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
                 <>
                   <div style={{ width: "100%", display: "inline-block" }}>
                     <Paging
-                      totalItems={state.users.length}
+                      totalItems={state.users.TotalRows}
                       itemsCountPerPage={pageSize}
                       onPageUpdate={_onPageUpdate}
                       currentPage={currentPage}
                     />
                   </div>
 
-                  <Stack
-                    horizontal
-                    horizontalAlign="center"
-                    wrap
-                    tokens={wrapStackTokens}>
-                    <div>
-                      {
-                        diretoryGrid
-                      }
-                    </div>
+                  <Stack horizontal horizontalAlign="center" wrap tokens={wrapStackTokens}>
+                    <div>{diretoryGrid}</div>
                   </Stack>
                   <div style={{ width: "100%", display: "inline-block" }}>
-                    {<Paging
-                      totalItems={state.users.length}
-                      itemsCountPerPage={pageSize}
-                      onPageUpdate={_onPageUpdate}
-                      currentPage={currentPage}
-                    /> }
+                    {
+                      <Paging
+                        totalItems={state.users.length}
+                        itemsCountPerPage={pageSize}
+                        onPageUpdate={_onPageUpdate}
+                        currentPage={currentPage}
+                      />
+                    }
                   </div>
                 </>
               )}
