@@ -16,14 +16,14 @@ export class spservices implements ISPServices {
     });
   }
 
- 
   public async searchUsersNew(
     context: any,
     searchString: string,
     srchQry: string,
     isInitialSearch: boolean,
     hidingUsers: string[],
-    pageNumber?: number
+    startItem: number,
+    endItem: number
   ): Promise<SearchResults> {
     let qrytext: string = "";
     const client = await context.msGraphClientFactory.getClient();
@@ -35,7 +35,7 @@ export class spservices implements ISPServices {
       }
       if (qrytext.length <= 0) qrytext = `*`;
     }
-    
+
     const searchProperties: string[] = [
       "FirstName",
       "LastName",
@@ -56,7 +56,8 @@ export class spservices implements ISPServices {
     try {
       let users = await sp.search(<SearchQuery>{
         Querytext: qrytext,
-        RowLimit: 500,
+        StartRow: startItem,
+        RowLimit: endItem,
         EnableInterleaving: true,
         SelectProperties: searchProperties,
         SourceId: "b09a7990-05ea-4af9-81ef-edfab16c4e31",
@@ -72,9 +73,9 @@ export class spservices implements ISPServices {
             index = index - 1;
           } else {
             user = {
-                  ...user,
-                  PictureURL: null,
-              };
+              ...user,
+              PictureURL: null,
+            };
           }
         }
       }
@@ -83,6 +84,4 @@ export class spservices implements ISPServices {
       Promise.reject(error);
     }
   }
-
-  
 }

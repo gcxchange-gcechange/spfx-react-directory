@@ -62,12 +62,17 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     props.pageSize ? props.pageSize : 10
   );
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [startItem, setStartItem] = useState<number>(0);
+  const [endItem, setEndItem] = useState<number>(props.pageSize);
 
   const _onPageUpdate = async (pageno?: number)=> {
     const currentPge = pageno ? pageno : currentPage;
-    const startItem = (currentPge - 1) * pageSize;
-    const endItem = currentPge * pageSize;
-    const filItems = _.slice(state.users, startItem, endItem);
+    // const startItem = (currentPge - 1) * pageSize;
+    // const endItem = currentPge * pageSize;
+    //const filItems = _.slice(state.users, startItem, endItem);
+    setStartItem((currentPge - 1) * pageSize);
+    setEndItem(currentPge * pageSize);
+    const filItems = state.users.PrimarySearchResults;
     setCurrentPage(currentPge);
     setPagedItems(filItems);
   };
@@ -121,20 +126,20 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     let users = null;
     if (initialSearch) {
       if (props.searchFirstName)
-        users = await _services.searchUsersNew(props.context, "", `FirstName:a*`, false, hidingUsers);
-      else users = await _services.searchUsersNew(props.context, "a", "", true, hidingUsers);
+        users = await _services.searchUsersNew(props.context, "", `FirstName:a*`, false, hidingUsers,startItem,endItem);
+      else users = await _services.searchUsersNew(props.context, "a", "", true, hidingUsers,startItem,endItem);
     } else {
       if (props.searchFirstName)
-        users = await _services.searchUsersNew(props.context, "", `FirstName:${alphaKey}*`, false, hidingUsers);
+        users = await _services.searchUsersNew(props.context, "", `FirstName:${alphaKey}*`, false, hidingUsers,startItem,endItem);
       else
-        users = await _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers);
+        users = await _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers,startItem,endItem);
     }
     setstate({
       ...state,
       searchText: "",
       indexSelectedKey: initialSearch ? "A" : state.indexSelectedKey,
       users:
-        users && users.PrimarySearchResults ? users.PrimarySearchResults : null,
+        users && users.PrimarySearchResults ? users : null,
       isLoading: false,
       errorMessage: "",
       hasError: false,
@@ -192,14 +197,14 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
             else qryText += `${srchprop}:${finalSearchText}* OR `;
           });
         }
-        const users = await _services.searchUsersNew(props.context, "", qryText, false, hidingUsers);
+        const users = await _services.searchUsersNew(props.context, "", qryText, false, hidingUsers,startItem,endItem);
         setstate({
           ...state,
           searchText: searchText,
           indexSelectedKey: null,
           users:
             users && users.PrimarySearchResults
-              ? users.PrimarySearchResults
+              ? users
               : null,
           isLoading: false,
           errorMessage: "",
@@ -284,7 +289,6 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
 
   return (
     <div className={styles.reactDirectory}>
-      
       <div className={styles.searchBox}>
         <Stack horizontal tokens={itemAlignmentsStackTokens}>
           <Stack.Item order={1} styles={stackItemStyles}>
@@ -302,9 +306,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
             />
           </Stack.Item>
           <Stack.Item order={2}>
-            <PrimaryButton onClick={_searchUsers}>
-              {strings.SearchButtonLabel}
-            </PrimaryButton>
+            <PrimaryButton onClick={_searchUsers}>{strings.SearchButtonLabel}</PrimaryButton>
           </Stack.Item>
         </Stack>
 
@@ -318,9 +320,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
               onLinkClick={_alphabetChange}
               linkSize={PivotLinkSize.normal}>
               {az.map((index: string) => {
-                return (
-                  <PivotItem headerText={index} itemKey={index} key={index} />
-                );
+                return <PivotItem headerText={index} itemKey={index} key={index} />;
               })}
             </Pivot>
           }
@@ -334,9 +334,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
         <>
           {state.hasError ? (
             <div style={{ marginTop: "10px" }}>
-              <MessageBar messageBarType={MessageBarType.error}>
-                {state.errorMessage}
-              </MessageBar>
+              <MessageBar messageBarType={MessageBarType.error}>{state.errorMessage}</MessageBar>
             </div>
           ) : (
             <>
@@ -345,22 +343,13 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
                   <Stack horizontal tokens={itemAlignmentsStackTokens}>
                     <Stack.Item order={1} styles={stackItemStyles}>
                       <span>
-                        <Image
-                          {...imageProps}
-                          alt={strings.NoUserFoundImageAltText}
-                        />
+                        <Image {...imageProps} alt={strings.NoUserFoundImageAltText} />
                       </span>
                     </Stack.Item>
                     <Stack.Item order={2}>
                       <span>
-                        <p>
-                          {
-                            parse(strings.DirectoryMessage)
-                          }
-                        </p>
-                        <PrimaryButton href={strings.NoUserFoundEmail}>
-                          {strings.NoUserFoundLabelText}
-                        </PrimaryButton>
+                        <p>{parse(strings.DirectoryMessage)}</p>
+                        <PrimaryButton href={strings.NoUserFoundEmail}>{strings.NoUserFoundLabelText}</PrimaryButton>
                       </span>
                     </Stack.Item>
                   </Stack>
@@ -369,31 +358,25 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
                 <>
                   <div style={{ width: "100%", display: "inline-block" }}>
                     <Paging
-                      totalItems={state.users.length}
+                      totalItems={state.users.TotalRows}
                       itemsCountPerPage={pageSize}
                       onPageUpdate={_onPageUpdate}
                       currentPage={currentPage}
                     />
                   </div>
 
-                  <Stack
-                    horizontal
-                    horizontalAlign="center"
-                    wrap
-                    tokens={wrapStackTokens}>
-                    <div>
-                      {
-                        diretoryGrid
-                      }
-                    </div>
+                  <Stack horizontal horizontalAlign="center" wrap tokens={wrapStackTokens}>
+                    <div>{diretoryGrid}</div>
                   </Stack>
                   <div style={{ width: "100%", display: "inline-block" }}>
-                    {<Paging
-                      totalItems={state.users.length}
-                      itemsCountPerPage={pageSize}
-                      onPageUpdate={_onPageUpdate}
-                      currentPage={currentPage}
-                    /> }
+                    {
+                      <Paging
+                        totalItems={state.users.TotalRows}
+                        itemsCountPerPage={pageSize}
+                        onPageUpdate={_onPageUpdate}
+                        currentPage={currentPage}
+                      />
+                    }
                   </div>
                 </>
               )}
