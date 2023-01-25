@@ -1,18 +1,18 @@
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import { Version } from '@microsoft/sp-core-library';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { Version } from "@microsoft/sp-core-library";
 import {
   IPropertyPaneConfiguration,
   PropertyPaneDropdown,
   PropertyPaneSlider,
-  PropertyPaneTextField
-} from '@microsoft/sp-property-pane';
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { IReadonlyTheme } from '@microsoft/sp-component-base';
+  PropertyPaneTextField,
+} from "@microsoft/sp-property-pane";
+import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
+import { IReadonlyTheme } from "@microsoft/sp-component-base";
 
-import * as strings from 'SpfxReactDirectoryWebpartWebPartStrings';
-import DirectoryHook from './components/DirectoryHook';
-import { IReactDirectoryProps } from './components/IReactDirectoryProps';
+import * as strings from "SpfxReactDirectoryWebpartWebPartStrings";
+import DirectoryHook from "./components/DirectoryHook";
+import { IReactDirectoryProps } from "./components/IReactDirectoryProps";
 
 export interface ISpfxReactDirectoryWebpartWebPartProps {
   title: string;
@@ -108,27 +108,6 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
     return Version.parse("1.0");
   }
 
-  // protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-  //   return {
-  //     pages: [
-  //       {
-  //         header: {
-  //           description: strings.PropertyPaneDescription
-  //         },
-  //         groups: [
-  //           {
-  //             groupName: strings.BasicGroupName,
-  //             groupFields: [
-  //               PropertyPaneTextField('description', {
-  //                 label: strings.DescriptionFieldLabel
-  //               })
-  //             ]
-  //           }
-  //         ]
-  //       }
-  //     ]
-  //   };
-  // }
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
@@ -140,9 +119,6 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                // PropertyPaneTextField("title", {
-                //   label: strings.TitleFieldLabel,
-                // }),
                 PropertyPaneDropdown("prefLang", {
                   label: "Preferred Language",
                   options: [
@@ -154,7 +130,7 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
                 PropertyPaneTextField("hidingUsers", {
                   label: "Users not in serach",
                   description: "Enter the user ids of the users who are not needed in the search separated by '/' ",
-                  multiline:true,
+                  multiline: true,
                   rows: 10,
                 }),
                 PropertyPaneSlider("pageSize", {
