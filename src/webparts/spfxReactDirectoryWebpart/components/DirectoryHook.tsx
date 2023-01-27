@@ -159,6 +159,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     
     setalphaKey(item.props.itemKey);
     setCurrentPage(1);
+    setStartItem(0);
   }
   };
   const _searchByAlphabets = async (initialSearch: boolean) => {
