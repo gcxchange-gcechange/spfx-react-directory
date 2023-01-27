@@ -67,24 +67,56 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     
     setStartItem(startItemIndex);
     //setEndItem(currentPge * pageSize);
+    // const searchText =
+    //   state.searchText.length > 0 ? state.searchText : alphaKey.length > 0 && alphaKey !== "0" ? alphaKey : null;
+
+    // const currentPageUsers = await _services.searchUsersNew(
+    //   props.context,
+    //   `${searchText}`,
+    //   "",
+    //   true,
+    //   hidingUsers,
+    //   startItemIndex,
+    //   pageSize
+    // );
+   // debugger;
+    const filItems = state.users.PrimarySearchResults;
+    setCurrentPage(currentPge);
+    setPagedItems(filItems);
+  };
+  const _getCurrentPageUsers = async () => {
     const searchText =
       state.searchText.length > 0 ? state.searchText : alphaKey.length > 0 && alphaKey !== "0" ? alphaKey : null;
 
-    const currentPageUsers = await _services.searchUsersNew(
+    const users = await _services.searchUsersNew(
       props.context,
       `${searchText}`,
       "",
       true,
       hidingUsers,
-      startItemIndex,
+      startItem,
       pageSize
     );
-   // debugger;
-    const filItems = currentPageUsers.PrimarySearchResults;
-    setCurrentPage(currentPge);
-    setPagedItems(filItems);
+    setstate({
+      ...state,
+      searchText: state.searchText,
+      indexSelectedKey: state.indexSelectedKey,
+      users: users && users.PrimarySearchResults ? users : null,
+      isLoading: false,
+      errorMessage: "",
+      hasError: false,
+    });
+    // setstate({
+    //   ...state,
+    //   searchText: searchText,
+    //   indexSelectedKey: null,
+    //   users: users && users.PrimarySearchResults ? users : null,
+    //   isLoading: false,
+    //   errorMessage: "",
+    //   hasError: false,
+    // });
+   
   };
-  
 
   const diretoryGrid =
     pagedItems && pagedItems.length > 0
@@ -167,6 +199,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
       errorMessage: "",
       hasError: false,
     });
+    
   };
 
   const _searchUsers = async () => {
@@ -265,7 +298,17 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
           /* perform error handling if desired */
         });
     }
-  }, [state.users, props.pageSize]);
+  }, [state.users]);
+  useEffect(() => {
+      _getCurrentPageUsers()
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => {
+          /* perform error handling if desired */
+        });
+    
+  }, [startItem]);
 
   useEffect(() => {
     if (alphaKey.length > 0 && alphaKey !== "0") {
