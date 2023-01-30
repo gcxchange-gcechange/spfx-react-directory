@@ -94,10 +94,14 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
   };
   const _getCurrentPageUsers = async () => {
 if(pgNo>0){
+  setstate({
+    ...state,
+    isLoading: true,
+  });
     const searchText =
       state.searchText.length > 0 ? state.searchText : alphaKey.length > 0 && alphaKey !== "0" ? alphaKey : null;
 
-    const currentUsers = await _services.searchUsersNew(
+    const users = await _services.searchUsersNew(
       props.context,
       `${searchText}`,
       "",
@@ -106,17 +110,19 @@ if(pgNo>0){
       startItem,
       pageSize
     );
-    setPagedItems(currentUsers.PrimarySearchResults);
-    }
-        // setstate({
-    //   ...state,
-    //   searchText: state.searchText,
-    //   indexSelectedKey: state.indexSelectedKey,
-    //   users: users && users.PrimarySearchResults ? users : null,
-    //   isLoading: false,
-    //   errorMessage: "",
-    //   hasError: false,
-    // });
+    setPagedItems(users.PrimarySearchResults);
+    
+   
+        setstate({
+      ...state,
+      searchText: state.searchText,
+      indexSelectedKey: state.indexSelectedKey,
+      users: users && users.PrimarySearchResults ? users : null,
+      isLoading: false,
+      errorMessage: "",
+      hasError: false,
+    });
+  }
     // setstate({
     //   ...state,
     //   searchText: searchText,
