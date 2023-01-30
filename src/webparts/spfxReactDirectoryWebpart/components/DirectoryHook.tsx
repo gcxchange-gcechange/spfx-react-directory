@@ -54,13 +54,19 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
 
   // Paging
   const [pagedItems, setPagedItems] = useState<unknown[]>([]);
+  //  const [currentPagecdItems, setcurrentPagecdItems] = useState<unknown[]>([]);
+
   const [pageSize, setPageSize] = useState<number>(props.pageSize ? props.pageSize : 10);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [startItem, setStartItem] = useState<number>(0);
+  const [pgNo, setPgNo] = useState<number>(0);
+
   //const [endItem, setEndItem] = useState<number>(props.pageSize);
 
   const _onPageUpdate = async (pageno?: number) => {
-    const currentPge = pageno ? pageno : currentPage;
+    console.log("pgNO",pgNo);
+    pageno ? setPgNo(pageno) : setPgNo(0);
+  const currentPge = pageno ? pageno : currentPage;
     const startItemIndex = (currentPge - 1) * pageSize;
     // const endItem = currentPge * pageSize;
     //const filItems = _.slice(state.users, startItem, endItem);
@@ -80,15 +86,18 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     //   pageSize
     // );
    // debugger;
+   if(pgNo===0){
     const filItems = state.users.PrimarySearchResults;
     setCurrentPage(currentPge);
     setPagedItems(filItems);
+   }
   };
   const _getCurrentPageUsers = async () => {
+if(pgNo>0){
     const searchText =
       state.searchText.length > 0 ? state.searchText : alphaKey.length > 0 && alphaKey !== "0" ? alphaKey : null;
 
-    const users = await _services.searchUsersNew(
+    const currentUsers = await _services.searchUsersNew(
       props.context,
       `${searchText}`,
       "",
@@ -97,15 +106,17 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
       startItem,
       pageSize
     );
-    setstate({
-      ...state,
-      searchText: state.searchText,
-      indexSelectedKey: state.indexSelectedKey,
-      users: users && users.PrimarySearchResults ? users : null,
-      isLoading: false,
-      errorMessage: "",
-      hasError: false,
-    });
+    setPagedItems(currentUsers.PrimarySearchResults);
+    }
+        // setstate({
+    //   ...state,
+    //   searchText: state.searchText,
+    //   indexSelectedKey: state.indexSelectedKey,
+    //   users: users && users.PrimarySearchResults ? users : null,
+    //   isLoading: false,
+    //   errorMessage: "",
+    //   hasError: false,
+    // });
     // setstate({
     //   ...state,
     //   searchText: searchText,
@@ -160,6 +171,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     setalphaKey(item.props.itemKey);
     setCurrentPage(1);
     setStartItem(0);
+    setPgNo(0);
   }
   };
   const _searchByAlphabets = async (initialSearch: boolean) => {
@@ -309,7 +321,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
           /* perform error handling if desired */
         });
     
-  }, [startItem]);
+  }, [pgNo]);
 
   useEffect(() => {
     if (alphaKey.length > 0 && alphaKey !== "0") {
