@@ -298,6 +298,8 @@ if(pgNo>0){
 
   const _searchBoxChanged = (newvalue: string): void => {
     setCurrentPage(1);
+    setStartItem(0);
+    setPgNo(0);
     setstate({
       ...state,
       searchText: newvalue,
@@ -319,6 +321,7 @@ if(pgNo>0){
     }
   }, [state.users]);
   useEffect(() => {
+    if(pgNo>0){
       _getCurrentPageUsers()
         .then((data) => {
           return data;
@@ -326,7 +329,7 @@ if(pgNo>0){
         .catch((err) => {
           /* perform error handling if desired */
         });
-    
+      }
   }, [pgNo]);
 
   useEffect(() => {
