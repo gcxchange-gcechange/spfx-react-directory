@@ -40,7 +40,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
   _services = new spservices(props.context);
 
   const [az, setaz] = useState<string[]>([]);
-  const [alphaKey, setalphaKey] = useState<string>("A");
+  const [alphaKey, setalphaKey] = useState<string>("");
   const [state, setstate] = useState<IReactDirectoryState>({
     users: [],
     isLoading: true,
@@ -54,75 +54,63 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
 
   // Paging
   const [pagedItems, setPagedItems] = useState<unknown[]>([]);
-  //  const [currentPagecdItems, setcurrentPagecdItems] = useState<unknown[]>([]);
-
   const [pageSize, setPageSize] = useState<number>(props.pageSize ? props.pageSize : 10);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [startItem, setStartItem] = useState<number>(0);
   const [pgNo, setPgNo] = useState<number>(0);
 
-  //const [endItem, setEndItem] = useState<number>(props.pageSize);
 
   const _onPageUpdate = async (pageno?: number) => {
-    console.log("pgNO",pgNo);
-    pageno ? setPgNo(pageno) : setPgNo(0);
-  const currentPge = pageno ? pageno : currentPage;
+    if(pageno){
+      setPgNo(pageno);
+    }
+    else{
+      setPgNo(0);
+    }
+        console.log("pgNO", pgNo);
+
+   // pageno ? setPgNo(pageno) : setPgNo(0);
+    const currentPge = pageno ? pageno : currentPage;
     const startItemIndex = (currentPge - 1) * pageSize;
-    // const endItem = currentPge * pageSize;
-    //const filItems = _.slice(state.users, startItem, endItem);
     
     setStartItem(startItemIndex);
-    //setEndItem(currentPge * pageSize);
-    // const searchText =
-    //   state.searchText.length > 0 ? state.searchText : alphaKey.length > 0 && alphaKey !== "0" ? alphaKey : null;
-
-    // const currentPageUsers = await _services.searchUsersNew(
-    //   props.context,
-    //   `${searchText}`,
-    //   "",
-    //   true,
-    //   hidingUsers,
-    //   startItemIndex,
-    //   pageSize
-    // );
-   // debugger;
-   if(pgNo===0){
-    const filItems = state.users.PrimarySearchResults;
-    setCurrentPage(currentPge);
-    setPagedItems(filItems);
-   }
+    
+    if (pgNo === 0) {
+      const filItems = state.users.PrimarySearchResults;
+      setCurrentPage(currentPge);
+      setPagedItems(filItems);
+    }
   };
   const _getCurrentPageUsers = async () => {
-if(pgNo>0){
-  setstate({
-    ...state,
-    isLoading: true,
-  });
-    const searchText =
-      state.searchText.length > 0 ? state.searchText : alphaKey.length > 0 && alphaKey !== "0" ? alphaKey : null;
+    if (pgNo > 0) {
+      setstate({
+        ...state,
+        isLoading: true,
+      });
+      const searchText =
+        state.searchText.length > 0 ? state.searchText : alphaKey.length > 0 && alphaKey !== "0" ? alphaKey : null;
 
-    const users = await _services.searchUsersNew(
-      props.context,
-      `${searchText}`,
-      "",
-      true,
-      hidingUsers,
-      startItem,
-      pageSize
-    );
-    setPagedItems(users.PrimarySearchResults);
-    
-   
-        setstate({
-      ...state,
-      searchText: state.searchText,
-      indexSelectedKey: state.indexSelectedKey,
-      users: users && users.PrimarySearchResults ? users : null,
-      isLoading: false,
-      errorMessage: "",
-      hasError: false,
-    });
-  }
+      const users = await _services.searchUsersNew(
+        props.context,
+        `${searchText}`,
+        "",
+        true,
+        hidingUsers,
+        startItem,
+        pageSize
+      );
+      setPagedItems(users.PrimarySearchResults);
+
+      setstate({
+        ...state,
+        searchText: state.searchText,
+        indexSelectedKey: state.indexSelectedKey,
+        users: users && users.PrimarySearchResults ? users : null,
+        isLoading: false,
+        errorMessage: "",
+        hasError: false,
+      });
+    }
     // setstate({
     //   ...state,
     //   searchText: searchText,
@@ -132,7 +120,6 @@ if(pgNo>0){
     //   errorMessage: "",
     //   hasError: false,
     // });
-   
   };
 
   const diretoryGrid =
@@ -166,48 +153,36 @@ if(pgNo>0){
 
   const _alphabetChange = async (item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) => {
     if (alphaKey !== item.props.itemKey) {
+      setstate({
+        ...state,
+        searchText: "",
+        indexSelectedKey: item.props.itemKey,
+        isLoading: true,
+      });
 
-    setstate({
-      ...state,
-      searchText: "",
-      indexSelectedKey: item.props.itemKey,
-      isLoading: true,
-    });
-    
-    setalphaKey(item.props.itemKey);
-    setCurrentPage(1);
-    setStartItem(0);
-    setPgNo(0);
-  }
+      setalphaKey(item.props.itemKey);
+      setCurrentPage(1);
+      setStartItem(0);
+      setPgNo(0);
+    }
   };
   const _searchByAlphabets = async (initialSearch: boolean) => {
     setstate({ ...state, isLoading: true, searchText: "" });
     let users = null;
     if (initialSearch) {
-      if (props.searchFirstName)
-        users = await _services.searchUsersNew(
-          props.context,
-          "",
-          `FirstName:a*`,
-          false,
-          hidingUsers,
-          startItem,
-          pageSize
-        );
-      else users = await _services.searchUsersNew(props.context, "a", "", true, hidingUsers, startItem,pageSize);
+      
+      users = await _services.searchUsersNew(props.context, "a", "", true, hidingUsers, startItem, pageSize);
     } else {
-      if (props.searchFirstName)
+      
         users = await _services.searchUsersNew(
           props.context,
+          `${alphaKey}`,
           "",
-          `FirstName:${alphaKey}*`,
-          false,
+          true,
           hidingUsers,
           startItem,
           pageSize
         );
-      else
-        users = await _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers, startItem, pageSize);
     }
     setstate({
       ...state,
@@ -218,7 +193,6 @@ if(pgNo>0){
       errorMessage: "",
       hasError: false,
     });
-    
   };
 
   const _searchUsers = async () => {
@@ -230,45 +204,16 @@ if(pgNo>0){
       setalphaKey("");
       const searchText = state.searchText;
       if (searchText.length > 0) {
-        const searchProps: string[] =
-          props.searchProps && props.searchProps.length > 0
-            ? props.searchProps.split(",")
-            : ["FirstName", "LastName", "PreferredName"];
+        const searchProps: string[] = ["FirstName", "LastName", "PreferredName"];
 
         let qryText: string = "";
         const finalSearchText: string = searchText ? searchText.replace(/ /g, "+") : searchText;
-        if (props.clearTextSearchProps) {
-          const tmpCTProps: string[] =
-            props.clearTextSearchProps.indexOf(",") >= 0
-              ? props.clearTextSearchProps.split(",")
-              : [props.clearTextSearchProps];
-          if (tmpCTProps.length > 0) {
-            searchProps.map((srchprop, index) => {
-              const ctPresent: any[] = _.filter(tmpCTProps, (o) => {
-                return o.toLowerCase() === srchprop.toLowerCase();
-              });
-              if (ctPresent.length > 0) {
-                if (index === searchProps.length - 1) {
-                  qryText += `${srchprop}:${searchText}*`;
-                } else qryText += `${srchprop}:${searchText}* OR `;
-              } else {
-                if (index === searchProps.length - 1) {
-                  qryText += `${srchprop}:${finalSearchText}*`;
-                } else qryText += `${srchprop}:${finalSearchText}* OR `;
-              }
-            });
-          } else {
-            searchProps.map((srchprop, index) => {
-              if (index === searchProps.length - 1) qryText += `${srchprop}:${finalSearchText}*`;
-              else qryText += `${srchprop}:${finalSearchText}* OR `;
-            });
-          }
-        } else {
-          searchProps.map((srchprop, index) => {
-            if (index === searchProps.length - 1) qryText += `${srchprop}:${finalSearchText}*`;
-            else qryText += `${srchprop}:${finalSearchText}* OR `;
-          });
-        }
+
+        searchProps.map((srchprop, index) => {
+          if (index === searchProps.length - 1) qryText += `${srchprop}:${finalSearchText}*`;
+          else qryText += `${srchprop}:${finalSearchText}* OR `;
+        });
+
         const users = await _services.searchUsersNew(
           props.context,
           "",
@@ -310,7 +255,8 @@ if(pgNo>0){
 
   useEffect(() => {
     setPageSize(props.pageSize);
-    if (state.users) {
+    if (state.users.PrimarySearchResults) 
+    {
       _onPageUpdate()
         .then((data) => {
           return data;
@@ -321,7 +267,7 @@ if(pgNo>0){
     }
   }, [state.users]);
   useEffect(() => {
-    if(pgNo>0){
+    if (pgNo > 0) {
       _getCurrentPageUsers()
         .then((data) => {
           return data;
@@ -329,7 +275,7 @@ if(pgNo>0){
         .catch((err) => {
           /* perform error handling if desired */
         });
-      }
+    }
   }, [pgNo]);
 
   useEffect(() => {
@@ -342,7 +288,6 @@ if(pgNo>0){
           /* perform error handling if desired */
         });
     }
-    
   }, [alphaKey]);
 
   useEffect(() => {
@@ -369,7 +314,6 @@ if(pgNo>0){
     imageFit: ImageFit.centerContain,
     width: 200,
     height: 200,
-    //src: require("../assets/HidingYeti.png"),
     src: require("../assets/HidingYeti.png"),
   };
   const piviotStyles: Partial<IStyleSet<IPivotStyles>> = {

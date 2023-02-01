@@ -16,9 +16,7 @@ import { IReactDirectoryProps } from "./components/IReactDirectoryProps";
 
 export interface ISpfxReactDirectoryWebpartWebPartProps {
   title: string;
-  searchFirstName: boolean;
   searchProps: string;
-  clearTextSearchProps: string;
   pageSize: number;
   prefLang: string;
   hidingUsers: string;
@@ -39,7 +37,6 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
       pageSize: this.properties.pageSize,
       prefLang: this.properties.prefLang,
       hidingUsers: this.properties.hidingUsers,
-      searchFirstName: this.properties.searchFirstName,
     });
 
     ReactDom.render(element, this.domElement);
