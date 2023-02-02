@@ -6,7 +6,7 @@ define([], function () {
     TitleFieldLabel: "Web Part Title",
     PagingLabel: "Results per page",
     DirectoryMessage:
-      "<h3> Hmmm… <br> We couldn't find the user you were looking for.</h3> They might not yet have joined GCXchange. Why not invite them, so you can work better, together.",
+      "<h3>We couldn't find the user you were looking for.</h3> They might not yet have joined GCXchange. Why not invite them, so you can work better, together.",
     LoadingText: "Searching for user. Please wait...",
     SearchBoxLabel: "Search for a colleague (First Name)",
     SearchButtonLabel: "Search",

@@ -318,7 +318,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
   };
   const piviotStyles: Partial<IStyleSet<IPivotStyles>> = {
     link: {
-      backgroundColor: "#ccc",
+      backgroundColor: "#eee",
     },
   };
 
