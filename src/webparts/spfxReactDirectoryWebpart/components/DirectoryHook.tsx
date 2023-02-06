@@ -323,11 +323,11 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
   };
 
   return (
-    <div className={styles.reactDirectory}>
+    <div className={styles.reactDirectory} lang={props.prefLang}     >
       <div className={styles.searchBox}>
         <Stack horizontal tokens={itemAlignmentsStackTokens}>
           <Stack.Item order={1} styles={stackItemStyles}>
-            <span>
+            <span role="region">
               <label>{strings.SearchBoxLabel}</label>
             </span>
           </Stack.Item>
@@ -374,20 +374,21 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
           ) : (
             <>
               {!pagedItems || pagedItems.length == 0 ? (
-                <div className={styles.noUsers}>
+                <div className={styles.noUsers} >                  
                   <Stack horizontal tokens={itemAlignmentsStackTokens}>
-                    <Stack.Item order={1} styles={stackItemStyles}>
-                      <span>
+                    <Stack.Item order={1} styles={stackItemStyles} >
+                      <span role="region">
                         <Image {...imageProps} alt={strings.NoUserFoundImageAltText} />
                       </span>
                     </Stack.Item>
                     <Stack.Item order={2}>
-                      <span>
+                      <span role="region">
                         <p>{parse(strings.DirectoryMessage)}</p>
-                        <PrimaryButton href={strings.NoUserFoundEmail}>{strings.NoUserFoundLabelText}</PrimaryButton>
+                        <PrimaryButton href={strings.NoUserFoundEmail} tabIndex={0}>{strings.NoUserFoundLabelText}</PrimaryButton>
                       </span>
                     </Stack.Item>
                   </Stack>
+                
                 </div>
               ) : (
                 <>
