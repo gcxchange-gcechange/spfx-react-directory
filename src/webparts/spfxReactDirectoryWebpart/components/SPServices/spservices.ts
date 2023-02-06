@@ -16,7 +16,8 @@ export class spservices implements ISPServices {
     srchQry: string,
     isInitialSearch: boolean,
     hidingUsers: string[],
-    pageNumber?: number
+    startItem: number,
+    endItem: number
   ): Promise<SearchResults> {
     let qrytext: string = "";
     const client = await context.msGraphClientFactory.getClient();
@@ -47,15 +48,17 @@ export class spservices implements ISPServices {
       "GroupId",
     ];
     try {
-      let users = await sp.search(<SearchQuery>{
+      let users = await sp.searchWithCaching(<SearchQuery>{
         Querytext: qrytext,
-        RowLimit: 500,
+        StartRow: startItem,
+        RowLimit: endItem,
         EnableInterleaving: true,
         SelectProperties: searchProperties,
         SourceId: "b09a7990-05ea-4af9-81ef-edfab16c4e31",
         SortList: [{ Property: "FirstName", Direction: SortDirection.Ascending }],
       });
       let n = users.PrimarySearchResults.length;
+      console.log("users",users)
       if (users && n > 0) {
         for (let index = 0; index < n; index++) {
           let user: any = users.PrimarySearchResults[index];
