@@ -69,9 +69,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     }
         console.log("pgNO", pgNo);
 
-
    // pageno ? setPgNo(pageno) : setPgNo(0);
-
     const currentPge = pageno ? pageno : currentPage;
     const startItemIndex = (currentPge - 1) * pageSize;
     
@@ -154,7 +152,6 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
   };
 
   const _alphabetChange = async (item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) => {
-
     if (alphaKey !== item.props.itemKey) {
       setstate({
         ...state,
@@ -168,7 +165,6 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
       setStartItem(0);
       setPgNo(0);
     }
-
   };
   const _searchByAlphabets = async (initialSearch: boolean) => {
     setstate({ ...state, isLoading: true, searchText: "" });
@@ -177,7 +173,6 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
       
       users = await _services.searchUsersNew(props.context, "a", "", true, hidingUsers, startItem, pageSize);
     } else {
-
       
         users = await _services.searchUsersNew(
           props.context,
@@ -188,15 +183,12 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
           startItem,
           pageSize
         );
-
     }
     setstate({
       ...state,
       searchText: "",
       indexSelectedKey: initialSearch ? "A" : state.indexSelectedKey,
-
       users: users && users.PrimarySearchResults ? users : null,
-
       isLoading: false,
       errorMessage: "",
       hasError: false,
@@ -217,7 +209,6 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
         let qryText: string = "";
         const finalSearchText: string = searchText ? searchText.replace(/ /g, "+") : searchText;
 
-
         searchProps.map((srchprop, index) => {
           if (index === searchProps.length - 1) qryText += `${srchprop}:${finalSearchText}*`;
           else qryText += `${srchprop}:${finalSearchText}* OR `;
@@ -232,14 +223,11 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
           startItem,
           pageSize
         );
-
         setstate({
           ...state,
           searchText: searchText,
           indexSelectedKey: null,
-
           users: users && users.PrimarySearchResults ? users : null,
-
           isLoading: false,
           errorMessage: "",
           hasError: false,
@@ -335,9 +323,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
   };
 
   return (
-
     <div className={styles.reactDirectory} lang={props.prefLang}     >
-
       <div className={styles.searchBox}>
         <Stack horizontal tokens={itemAlignmentsStackTokens}>
           <Stack.Item order={1} styles={stackItemStyles}>
@@ -390,19 +376,16 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
               {!pagedItems || pagedItems.length == 0 ? (
                 <div className={styles.noUsers} >                  
                   <Stack horizontal tokens={itemAlignmentsStackTokens}>
-
                     <Stack.Item order={1} styles={stackItemStyles} >
                       <span role="region">
-
                         <Image {...imageProps} alt={strings.NoUserFoundImageAltText} />
                       </span>
                     </Stack.Item>
                     <Stack.Item order={2}>
-
                       <span role="region">
                         <p>{parse(strings.DirectoryMessage)}</p>
                         <PrimaryButton href={strings.NoUserFoundEmail} tabIndex={0}>{strings.NoUserFoundLabelText}</PrimaryButton>
-
+                      </span>
                     </Stack.Item>
                   </Stack>
                 
@@ -424,9 +407,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
                   <div style={{ width: "100%", display: "inline-block" }}>
                     {
                       <Paging
-
                         totalItems={state.users.TotalRows}
-
                         itemsCountPerPage={pageSize}
                         onPageUpdate={_onPageUpdate}
                         currentPage={currentPage}
