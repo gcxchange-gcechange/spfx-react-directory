@@ -310,7 +310,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
       <div className={styles.searchBox}>
         <Stack horizontal tokens={itemAlignmentsStackTokens}>
           <Stack.Item order={1} styles={stackItemStyles}>
-            <span role="region">
+            <span>
               <label>{strings.SearchBoxLabel}</label>
             </span>
           </Stack.Item>
@@ -361,16 +361,14 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
                 <div className={styles.noUsers}>
                   <Stack horizontal tokens={itemAlignmentsStackTokens}>
                     <Stack.Item order={1} styles={stackItemStyles}>
-                      <span role="region">
+                      <span>
                         <Image {...imageProps} alt={strings.NoUserFoundImageAltText} />
                       </span>
                     </Stack.Item>
                     <Stack.Item order={2}>
-                      <span role="region">
-                        <p>{parse(strings.DirectoryMessage)}</p>
-                        <PrimaryButton href={strings.NoUserFoundEmail} tabIndex={0}>
-                          {strings.NoUserFoundLabelText}
-                        </PrimaryButton>
+                      <span>
+                        <p tabIndex={0}>{parse(strings.DirectoryMessage)}</p>
+                        <PrimaryButton href={strings.NoUserFoundEmail}>{strings.NoUserFoundLabelText}</PrimaryButton>
                       </span>
                     </Stack.Item>
                   </Stack>
