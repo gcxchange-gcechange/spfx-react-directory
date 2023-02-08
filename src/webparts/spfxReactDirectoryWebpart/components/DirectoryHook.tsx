@@ -361,7 +361,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
                 <div className={styles.noUsers}>
                   <Stack horizontal tokens={itemAlignmentsStackTokens}>
                     <Stack.Item order={1} styles={stackItemStyles}>
-                      <span>
+                      <span tabIndex={0}>
                         <Image {...imageProps} alt={strings.NoUserFoundImageAltText} />
                       </span>
                     </Stack.Item>
