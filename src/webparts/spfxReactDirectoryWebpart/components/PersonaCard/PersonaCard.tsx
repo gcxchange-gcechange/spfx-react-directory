@@ -26,13 +26,9 @@ import {
 import { SelectLanguage } from "../SelectLanguage";
 
 const EXP_SOURCE: string = "SPFxDirectory";
-const LIVE_PERSONA_COMPONENT_ID: string =
-  "914330ee-2df2-4f6e-a858-30c23a812408"; //component Id of the Live Persona Card module
+const LIVE_PERSONA_COMPONENT_ID: string = "914330ee-2df2-4f6e-a858-30c23a812408"; //component Id of the Live Persona Card module
 
-export class PersonaCard extends React.Component<
-  IPersonaCardProps,
-  IPersonaCardState
-> {
+export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCardState> {
   constructor(props: IPersonaCardProps) {
     super(props);
 
@@ -45,9 +41,7 @@ export class PersonaCard extends React.Component<
    */
   public async componentDidMount() {
     if (Environment.type !== EnvironmentType.Local) {
-      const sharedLibrary = await this._loadSPComponentById(
-        LIVE_PERSONA_COMPONENT_ID
-      );
+      const sharedLibrary = await this._loadSPComponentById(LIVE_PERSONA_COMPONENT_ID);
       const livePersonaCard: any = sharedLibrary.LivePersonaCard;
       this.setState({ livePersonaCard: livePersonaCard });
     }
@@ -60,10 +54,7 @@ export class PersonaCard extends React.Component<
    * @param {IPersonaCardState} prevState
    * @memberof PersonaCard
    */
-  public componentDidUpdate(
-    prevProps: IPersonaCardProps,
-    prevState: IPersonaCardState
-  ): void {}
+  public componentDidUpdate(prevProps: IPersonaCardProps, prevState: IPersonaCardState): void {}
 
   /**
    *
@@ -99,9 +90,7 @@ export class PersonaCard extends React.Component<
   private _PersonaCard(): JSX.Element {
     const strings = SelectLanguage(this.props.prefLang);
     return (
-      <DocumentCard
-        className={styles.documentCard}
-        type={DocumentCardType.normal}>
+      <DocumentCard className={styles.documentCard} type={DocumentCardType.normal}>
         <div className={styles.persona}>
           <Persona
             text={this.props.profileProperties.DisplayName}
@@ -110,16 +99,17 @@ export class PersonaCard extends React.Component<
             imageUrl={this.props.profileProperties.PictureUrl}
             size={PersonaSize.size48}
             imageShouldFadeIn={false}
-            imageShouldStartVisible={true}>
+            imageShouldStartVisible={true}
+          >
             {this.props.profileProperties.Email ? (
               <div className={styles.textOverflow}>
-                <Icon
-                  iconName="PublicEmail"
-                  style={{ fontSize: "12px", verticalAlign: "sub" }}
-                />
+                <Icon iconName="PublicEmail" style={{ fontSize: "12px", verticalAlign: "sub" }} />
                 <span style={{ marginLeft: 5, fontSize: "12px" }}>
                   {
-                    <a href={`mailto: ${this.props.profileProperties.Email}`}>
+                    <a
+                      aria-label={`mailto link ${this.props.profileProperties.Email} `}
+                      href={`mailto: ${this.props.profileProperties.Email}`}
+                    >
                       {this.props.profileProperties.Email}
                     </a>
                   }
@@ -131,10 +121,7 @@ export class PersonaCard extends React.Component<
             {this.props.profileProperties.WorkPhone ? (
               <div>
                 <Icon iconName="Phone" style={{ fontSize: "12px" }} />
-                <span style={{ marginLeft: 5, fontSize: "12px" }}>
-                  {" "}
-                  {this.props.profileProperties.WorkPhone}
-                </span>
+                <span style={{ marginLeft: 5, fontSize: "12px" }}> {this.props.profileProperties.WorkPhone}</span>
               </div>
             ) : (
               ""
@@ -142,10 +129,7 @@ export class PersonaCard extends React.Component<
             {this.props.profileProperties.Location ? (
               <div className={styles.textOverflow}>
                 <Icon iconName="Poi" style={{ fontSize: "12px" }} />
-                <span style={{ marginLeft: 5, fontSize: "12px" }}>
-                  {" "}
-                  {this.props.profileProperties.Location}
-                </span>
+                <span style={{ marginLeft: 5, fontSize: "12px" }}> {this.props.profileProperties.Location}</span>
               </div>
             ) : (
               ""
@@ -161,9 +145,7 @@ export class PersonaCard extends React.Component<
    */
   private async _loadSPComponentById(componentId: string): Promise<any> {
     try {
-      const component: any = await SPComponentLoader.loadComponentById(
-        componentId
-      );
+      const component: any = await SPComponentLoader.loadComponentById(componentId);
       return component;
     } catch (error) {
       Promise.reject(error);
@@ -208,8 +190,7 @@ export class PersonaCard extends React.Component<
             />
           </Stack.Item>
           <Stack.Item align="center" styles={stackItemStyles}>
-            <PrimaryButton
-              href={`mailto: ${this.props.profileProperties.Email}`}>
+            <PrimaryButton href={`mailto: ${this.props.profileProperties.Email}`}>
               {strings.SendEmailLabel}
             </PrimaryButton>
           </Stack.Item>
@@ -239,7 +220,8 @@ export class PersonaCard extends React.Component<
               plainCardProps={plainCardProps}
               setInitialFocus={true}
               trapFocus={true}
-              className={styles.customHoverCard}>
+              className={styles.customHoverCard}
+            >
               {this._PersonaCard()}
             </HoverCard>
           </FocusZone>
