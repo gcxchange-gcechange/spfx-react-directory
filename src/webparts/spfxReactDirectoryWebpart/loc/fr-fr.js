@@ -1,6 +1,6 @@
 define([], function () {
   return {
-    SearchPlaceHolder: "Recherche par prénom",
+    SearchPlaceHolder: "Rechercher par nom de famille",
     PropertyPaneDescription: "Search People from Organization Directory",
     BasicGroupName: "Properties",
     TitleFieldLabel: "Web Part Title",
@@ -8,9 +8,9 @@ define([], function () {
     DirectoryMessage:
       " <h3>Nous n'avons pas trouvé l'utilisateur que vous cherchez.</h3> Il se peut qu'il ne se soit pas encore inscrit à GCÉchange. Pourquoi ne pas l'inviter afin que vous puissiez mieux travailler, ensemble?",
     LoadingText: "Recherche en cours. Veuillez patienter...",
-    SearchBoxLabel: "Chercher un collègue (Prénom)",
+    SearchBoxLabel: "Rechercher un(e) collègue (Nom de famille)",
     SearchButtonLabel: "Recherche",
-    SendEmailLabel:"Envoyer un courriel",
+    SendEmailLabel: "Envoyer un courriel",
     NoUserFoundLabelText: "Inviter un collègue",
     NoUserFoundImageAltText: "Un yeti qui se cache",
     NoUserFoundEmail:
