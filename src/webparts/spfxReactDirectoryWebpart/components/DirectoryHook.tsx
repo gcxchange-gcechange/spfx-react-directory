@@ -183,7 +183,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
       setalphaKey("");
       const searchText = state.searchText;
       if (searchText.length > 0) {
-        const searchProps: string[] = ["FirstName", "LastName", "PreferredName"];
+        const searchProps: string[] = ["FirstName", "LastName"];
 
         let qryText: string = "";
         const finalSearchText: string = searchText ? searchText.replace(/ /g, "+") : searchText;
