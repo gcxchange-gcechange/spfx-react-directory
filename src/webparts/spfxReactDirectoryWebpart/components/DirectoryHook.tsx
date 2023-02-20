@@ -50,7 +50,10 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     searchString: "FirstName",
     searchText: "",
   });
-  const hidingUsers: string[] = props.hidingUsers && props.hidingUsers.length > 0 ? props.hidingUsers.split("/") : [];
+
+  const hidingUsers: string[] =
+    props.hidingUsers && props.hidingUsers.length > 0 ? props.hidingUsers.replace(/\s+/g, "").split("/") : [];
+  console.log("hidingUsers", hidingUsers);
 
   // Paging
   const [pagedItems, setPagedItems] = useState<unknown[]>([]);
