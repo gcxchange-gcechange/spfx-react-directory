@@ -40,7 +40,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
   _services = new spservices(props.context);
 
   const [az, setaz] = useState<string[]>([]);
-  const [alphaKey, setalphaKey] = useState<string>("");
+  const [alphaKey, setalphaKey] = useState<string>("A");
   const [state, setstate] = useState<IReactDirectoryState>({
     users: [],
     isLoading: true,
