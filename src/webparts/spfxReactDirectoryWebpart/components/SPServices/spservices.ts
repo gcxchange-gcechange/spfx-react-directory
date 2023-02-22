@@ -48,7 +48,7 @@ export class spservices implements ISPServices {
       "GroupId",
     ];
     try {
-      let users = await sp.searchWithCaching(<SearchQuery>{
+      let users = await sp.search(<SearchQuery>{
         Querytext: qrytext,
         StartRow: startItem,
         RowLimit: endItem,
@@ -58,7 +58,7 @@ export class spservices implements ISPServices {
         SortList: [{ Property: "FirstName", Direction: SortDirection.Ascending }],
       });
       let n = users.PrimarySearchResults.length;
-      console.log("users",users)
+      console.log("users", users);
       if (users && n > 0) {
         for (let index = 0; index < n; index++) {
           let user: any = users.PrimarySearchResults[index];
