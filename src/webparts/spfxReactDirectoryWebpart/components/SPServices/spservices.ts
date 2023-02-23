@@ -48,7 +48,7 @@ export class spservices implements ISPServices {
       "GroupId",
     ];
     try {
-      let users = await sp.searchWithCaching(<SearchQuery>{
+      let users = await sp.search(<SearchQuery>{
         Querytext: qrytext,
         StartRow: startItem,
         RowLimit: endItem,
