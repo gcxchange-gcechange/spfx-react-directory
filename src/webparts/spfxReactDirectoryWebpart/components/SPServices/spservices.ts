@@ -52,13 +52,13 @@ export class spservices implements ISPServices {
         Querytext: qrytext,
         StartRow: startItem,
         RowLimit: endItem,
-        EnableInterleaving: true,
+        // EnableInterleaving: true,
         SelectProperties: searchProperties,
         SourceId: "b09a7990-05ea-4af9-81ef-edfab16c4e31",
         SortList: [{ Property: "FirstName", Direction: SortDirection.Ascending }],
       });
       let n = users.PrimarySearchResults.length;
-      console.log("users",users)
+      console.log("users", users);
       if (users && n > 0) {
         for (let index = 0; index < n; index++) {
           let user: any = users.PrimarySearchResults[index];

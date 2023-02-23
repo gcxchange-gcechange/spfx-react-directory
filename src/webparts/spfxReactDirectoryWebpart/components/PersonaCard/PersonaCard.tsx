@@ -199,7 +199,7 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
               href={`https://teams.microsoft.com/l/chat/0/0?users=${this.props.profileProperties.Email}`}
               target="_blank"
             >
-              <Icon iconName="Chat" style={{ verticalAlign: "sub", marginRight: 5 }} /> Start chat
+              <Icon iconName="Chat" style={{ verticalAlign: "sub", marginRight: 5 }} /> {strings.StartChatLabel}
             </PrimaryButton>
           </Stack.Item>
         </Stack>
