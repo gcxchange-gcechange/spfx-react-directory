@@ -129,6 +129,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
                 Department: user.Department,
                 WorkPhone: user.WorkPhone,
                 Location: user.OfficeNumber ? user.OfficeNumber : user.BaseOfficeLocation,
+                UserID: "priyamvada.singh_tbs-sct.gc.ca#EXT#@gcxgce.onmicrosoft.com",
               }}
             />
           );

@@ -46,6 +46,7 @@ export class spservices implements ISPServices {
       "BaseOfficeLocation",
       "SPS-UserType",
       "GroupId",
+      "UserPrincipalName",
     ];
     try {
       let users = await sp.search(<SearchQuery>{
