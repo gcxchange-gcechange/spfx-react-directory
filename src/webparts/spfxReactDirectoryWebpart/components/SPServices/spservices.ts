@@ -67,10 +67,23 @@ export class spservices implements ISPServices {
             n = n - 1;
             index = index - 1;
           } else {
-            user = {
-              ...user,
-              PictureURL: null,
-            };
+            let res = await client
+              .api(`/users/${user.UniqueId}/photo/$value`)
+              .get()
+              .then(() => {
+                user = {
+                  ...user,
+                  PictureURL: `/_layouts/15/userphoto.aspx?size=M&accountname=${user.WorkEmail}`,
+                };
+                users.PrimarySearchResults[index] = user;
+              })
+              .catch(() => {
+                user = {
+                  ...user,
+                  PictureURL: null,
+                };
+                users.PrimarySearchResults[index] = user;
+              });
           }
         }
       }
