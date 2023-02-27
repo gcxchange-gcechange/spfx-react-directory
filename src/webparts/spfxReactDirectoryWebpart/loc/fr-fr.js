@@ -11,6 +11,7 @@ define([], function () {
     SearchBoxLabel: "Rechercher un(e) collègue (Nom de famille)",
     SearchButtonLabel: "Recherche",
     SendEmailLabel: "Envoyer un courriel",
+    StartChatLabel: "Lancer une séance de clavardage",
     NoUserFoundLabelText: "Inviter un collègue",
     NoUserFoundImageAltText: "Un yeti qui se cache",
     NoUserFoundEmail:
