@@ -69,6 +69,7 @@ export class spservices implements ISPServices {
             n = n - 1;
             index = index - 1;
           } else {
+
             const body = { requests: [] };
             users.PrimarySearchResults.forEach((user) => {
               const requestUrl: string = `/users/${user.UniqueId}/photo/$value`;
@@ -115,6 +116,7 @@ export class spservices implements ISPServices {
                  });
                }
              });
+
           }
         }
       }
