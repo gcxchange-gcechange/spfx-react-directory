@@ -21,7 +21,7 @@ export class spservices implements ISPServices {
     endItem: number
   ): Promise<SearchResults> {
     let qrytext: string = "";
-    const client = await context.msGraphClientFactory.getClient();
+
     if (isInitialSearch) qrytext = `FirstName:${searchString}* OR LastName:${searchString}*`;
     else {
       if (srchQry) qrytext = srchQry;
@@ -68,57 +68,50 @@ export class spservices implements ISPServices {
             users.PrimarySearchResults.splice(index, 1);
             n = n - 1;
             index = index - 1;
-          } else {
-
-            const body = { requests: [] };
-            users.PrimarySearchResults.forEach((user) => {
-              const requestUrl: string = `/users/${user.UniqueId}/photo/$value`;
-              body.requests.push({
-                id: user.UniqueId.toString(),
-                method: "GET",
-                url: requestUrl,
-              });
-            });
-             const response = await client.api("$batch").version("v1.0").post(body);
-             response.responses.forEach((r) => {
-               if (r.status === 200) {
-                 users.PrimarySearchResults.map((u, index) => {
-                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                   let user: any = users.PrimarySearchResults[index];
-                   console.log("u.id", r.id);
-                   console.log("u.UniqueId", u.UniqueId);
-                   console.log("Type of UniqueId", typeof u.UniqueId);
-
-                   if (r.id === u.UniqueId) {
-                     console.log("Hi");
-
-                     user = {
-                       ...user,
-                       PictureURL: `data:${r.headers["Content-Type"]};base64,${r.body}`,
-                     };
-                     console.log("Hi user", user);
-                     users.PrimarySearchResults[index] = user;
-                   }
-                 });
-               }
-
-               if (r.status !== 200) {
-                 users.PrimarySearchResults.map((u, index) => {
-                   if (r.id === u.UniqueId) {
-                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                     let user: any = users.PrimarySearchResults[index];
-                     user = {
-                       ...user,
-                       PictureURL: null,
-                     };
-                     users.PrimarySearchResults[index] = user;
-                   }
-                 });
-               }
-             });
-
           }
         }
+        const client = await context.msGraphClientFactory.getClient();
+
+        const body = { requests: [] };
+        users.PrimarySearchResults.forEach((user) => {
+          const requestUrl: string = `/users/${user.UniqueId}/photo/$value`;
+          body.requests.push({
+            id: user.UniqueId.toString(),
+            method: "GET",
+            url: requestUrl,
+          });
+        });
+        const response = await client.api("$batch").version("v1.0").post(body);
+        console.log("response", response);
+        response.responses.forEach((r) => {
+          if (r.status === 200) {
+            users.PrimarySearchResults.map((u, index) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              let user: any = users.PrimarySearchResults[index];
+              if (r.id === u.UniqueId) {
+                user = {
+                  ...user,
+                  PictureURL: `data:${r.headers["Content-Type"]};base64,${r.body}`,
+                };
+                users.PrimarySearchResults[index] = user;
+              }
+            });
+          }
+
+          if (r.status !== 200) {
+            users.PrimarySearchResults.map((u, index) => {
+              if (r.id === u.UniqueId) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                let user: any = users.PrimarySearchResults[index];
+                user = {
+                  ...user,
+                  PictureURL: null,
+                };
+                users.PrimarySearchResults[index] = user;
+              }
+            });
+          }
+        });
       }
       return users;
     } catch (error) {
