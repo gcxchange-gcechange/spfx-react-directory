@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import styles from "./PersonaCard.module.scss";
 import { IPersonaCardProps } from "./IPersonaCardProps";
@@ -13,12 +18,10 @@ import {
   Icon,
   HoverCard,
   IPlainCardProps,
-  DefaultButton,
   HoverCardType,
   Stack,
   IStackTokens,
   IStackStyles,
-  DefaultPalette,
   IStackItemStyles,
   FocusZone,
   PrimaryButton,
@@ -39,6 +42,7 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
    *
    * @memberof PersonaCard
    */
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public async componentDidMount() {
     if (Environment.type !== EnvironmentType.Local) {
       const sharedLibrary = await this._loadSPComponentById(LIVE_PERSONA_COMPONENT_ID);
