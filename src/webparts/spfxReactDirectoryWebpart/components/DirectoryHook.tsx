@@ -122,7 +122,8 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
               context={props.context}
               prefLang={props.prefLang}
               profileProperties={{
-                DisplayName: user.PreferredName,
+                DisplayName:
+                  user.FirstName && user.LastName ? `${user.FirstName}   ${user.LastName}` : user.PreferredName,
                 Title: user.JobTitle,
                 PictureUrl: user.PictureURL,
                 Email: user.WorkEmail,
