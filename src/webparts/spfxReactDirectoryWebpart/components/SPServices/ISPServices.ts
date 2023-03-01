@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface ISPServices {
-  // searchUsers(searchString: string, searchFirstName: boolean);
   searchUsersNew(
     context: any,
     searchString: string,

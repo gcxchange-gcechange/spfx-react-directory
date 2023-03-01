@@ -1,6 +1,5 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { sp, SearchQuery, SearchResults, SortDirection } from "@pnp/sp";
-
 import { ISPServices } from "./ISPServices";
 
 export class spservices implements ISPServices {
