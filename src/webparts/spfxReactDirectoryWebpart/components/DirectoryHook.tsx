@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import { useEffect, useState } from "react";
 import styles from "./ReactDirectory.module.scss";
@@ -26,7 +28,7 @@ import {
 import { IReactDirectoryProps } from "./IReactDirectoryProps";
 import parse from "html-react-parser";
 import { SelectLanguage } from "./SelectLanguage";
-import * as _ from "lodash";
+//import * as _ from "lodash";
 import { ISPServices } from "./SPServices/ISPServices";
 import { spservices } from "./SPServices/spservices";
 import { PersonaCard } from "./PersonaCard/PersonaCard";
@@ -120,7 +122,8 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
               context={props.context}
               prefLang={props.prefLang}
               profileProperties={{
-                DisplayName: user.PreferredName,
+                DisplayName:
+                  user.FirstName && user.LastName ? `${user.FirstName}   ${user.LastName}` : user.PreferredName,
                 Title: user.JobTitle,
                 PictureUrl: user.PictureURL,
                 Email: user.WorkEmail,
@@ -133,7 +136,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
         })
       : [];
   const _loadAlphabets = () => {
-    let alphabets: string[] = [];
+    const alphabets: string[] = [];
     for (let i = 65; i < 91; i++) {
       alphabets.push(String.fromCharCode(i));
     }
@@ -357,7 +360,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
             </div>
           ) : (
             <>
-              {!pagedItems || pagedItems.length == 0 ? (
+              {!pagedItems || pagedItems.length === 0 ? (
                 <div className={styles.noUsers}>
                   <Stack horizontal tokens={itemAlignmentsStackTokens}>
                     <Stack.Item order={1} styles={stackItemStyles}>
