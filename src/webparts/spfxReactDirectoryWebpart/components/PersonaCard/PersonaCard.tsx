@@ -195,7 +195,15 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
           </Stack.Item>
           <Stack.Item align="center" styles={stackItemStyles}>
             <PrimaryButton href={`mailto: ${this.props.profileProperties.Email}`}>
+              <Icon iconName="PublicEmail" style={{ verticalAlign: "sub", marginRight: 5 }} />
               {strings.SendEmailLabel}
+            </PrimaryButton>
+            <PrimaryButton
+              style={{ marginLeft: 50 }}
+              href={`https://teams.microsoft.com/l/chat/0/0?users=${this.props.profileProperties.Email}`}
+              target="_blank"
+            >
+              <Icon iconName="Chat" style={{ verticalAlign: "sub", marginRight: 5 }} /> {strings.StartChatLabel}
             </PrimaryButton>
           </Stack.Item>
         </Stack>

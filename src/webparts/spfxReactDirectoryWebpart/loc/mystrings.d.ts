@@ -11,7 +11,6 @@ declare interface ISpfxReactDirectoryWebpartWebPartStrings {
   AppTeamsTabEnvironment: string;
   AppOfficeEnvironment: string;
   AppOutlookEnvironment: string;
-
   SearchPlaceHolder: string;
   PropertyPaneDescription: string;
   BasicGroupName: string;
@@ -21,16 +20,17 @@ declare interface ISpfxReactDirectoryWebpartWebPartStrings {
   LoadingText: string;
   SearchBoxLabel: string;
   SendEmailLabel: string;
+  StartChatLabel: string;
   NoUserFoundLabelText: string;
   NoUserFoundImageAltText: string;
   NoUserFoundEmailSubject: string;
   NoUserFoundEmailBody: string;
   NoUserFoundEmail: string;
 
-  SearchButtonLabel:String;
+  SearchButtonLabel: String;
 }
 
-declare module 'SpfxReactDirectoryWebpartWebPartStrings' {
+declare module "SpfxReactDirectoryWebpartWebPartStrings" {
   const strings: ISpfxReactDirectoryWebpartWebPartStrings;
   export = strings;
 }

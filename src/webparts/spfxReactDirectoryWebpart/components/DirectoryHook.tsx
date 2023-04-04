@@ -33,6 +33,7 @@ import { ISPServices } from "./SPServices/ISPServices";
 import { spservices } from "./SPServices/spservices";
 import { PersonaCard } from "./PersonaCard/PersonaCard";
 import Paging from "./Pagination/Paging";
+import { UserBase } from "@pnp/sp/src/siteusers";
 
 const wrapStackTokens: IStackTokens = { childrenGap: 30 };
 
@@ -130,6 +131,7 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
                 Department: user.Department,
                 WorkPhone: user.WorkPhone,
                 Location: user.OfficeNumber ? user.OfficeNumber : user.BaseOfficeLocation,
+                UserID: "priyamvada.singh_tbs-sct.gc.ca#EXT#@gcxgce.onmicrosoft.com",
               }}
             />
           );

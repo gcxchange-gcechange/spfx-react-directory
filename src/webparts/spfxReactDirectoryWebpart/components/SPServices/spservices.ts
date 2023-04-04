@@ -46,13 +46,14 @@ export class spservices implements ISPServices {
       "BaseOfficeLocation",
       "SPS-UserType",
       "GroupId",
+      "UserPrincipalName",
     ];
     try {
       const users = await sp.search(<SearchQuery>{
         Querytext: qrytext,
         StartRow: startItem,
         RowLimit: endItem,
-        EnableInterleaving: true,
+        // EnableInterleaving: true,
         SelectProperties: searchProperties,
         SourceId: "b09a7990-05ea-4af9-81ef-edfab16c4e31",
         SortList: [{ Property: "FirstName", Direction: SortDirection.Ascending }],
