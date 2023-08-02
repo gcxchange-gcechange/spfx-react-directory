@@ -17,5 +17,5 @@
     "source.fixAll.eslint": true
   },
   "prettier.printWidth": 120,
-  "window.zoomLevel": 1
+  "window.zoomLevel": 0
 }

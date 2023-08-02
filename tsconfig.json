@@ -1,4 +1,3 @@
-
 // New Version*
 {
   "extends": "./node_modules/@microsoft/rush-stack-compiler-4.5/includes/tsconfig-web.json",
@@ -19,8 +18,8 @@
     "noImplicitAny": false,
 
     "typeRoots": ["./node_modules/@types", "./node_modules/@microsoft"],
-    "types": ["webpack-env", "es6-promise"],
-    "lib": ["es5", "dom", "es2015.collection", "es2015.promise"]
+    "types": ["webpack-env"], // "es6-promise"
+    "lib": ["es5", "dom", "es2015.collection", "es2015.promise", "es2017"]
   },
   "include": [
     "src/**/*.ts",

@@ -7,6 +7,8 @@ export interface ISPServices {
     isInitialSearch: boolean,
     hidingUsers: any,
     startItem: number,
-    endItem: number
+    endItem: number,
+    //accessToken: any,
+    //activeAccount: any
   );
 }

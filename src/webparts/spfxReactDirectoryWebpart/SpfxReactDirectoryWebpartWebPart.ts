@@ -13,6 +13,7 @@ import { IReadonlyTheme } from "@microsoft/sp-component-base";
 import * as strings from "SpfxReactDirectoryWebpartWebPartStrings";
 import DirectoryHook from "./components/DirectoryHook";
 import { IReactDirectoryProps } from "./components/IReactDirectoryProps";
+import ChatService from "./components/SPServices/ChatService";
 
 export interface ISpfxReactDirectoryWebpartWebPartProps {
   title: string;
@@ -39,12 +40,17 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
       hidingUsers: this.properties.hidingUsers,
     });
 
+
+    
+
     ReactDom.render(element, this.domElement);
+    //console.log("ReactDome.rendered");
   }
 
   protected onInit(): Promise<void> {
     return this._getEnvironmentMessage().then((message) => {
       this._environmentMessage = message;
+      ChatService.setup(this.context);
     });
   }
 
