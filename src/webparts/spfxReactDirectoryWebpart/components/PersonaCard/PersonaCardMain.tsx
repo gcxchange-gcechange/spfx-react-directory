@@ -70,9 +70,9 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     let chatUserId:string = '';
     let connectedUserId:string = activeAccount != null ? activeAccount.localAccountId : null;
     let lookForUserId:string = '';
-    //let lookForUserName:string = '';
-    //let foundIt:boolean = false;
-    //let chatList: Chat[] = [];
+    let lookForUserName:string = '';
+    let foundIt:boolean = false;
+    let chatList: Chat[] = [];
 
     let accessToken: string;
 
@@ -84,6 +84,8 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
 
     ChatService.getChats(accessToken, activeAccount).then((chatData) => {
       if (chatData) {
+        console.log("chatData", chatData);
+        
         const users = state.users;
 
         let n = users.PrimarySearchResults.length;
@@ -91,8 +93,8 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
 
         for (let index = 0; index < n; index++) {
           lookForUserId = users.PrimarySearchResults[index].UniqueId;
-          //lookForUserName = users.PrimarySearchResults[index].Title;
-          //foundIt = false;
+          lookForUserName = users.PrimarySearchResults[index].Title;
+          foundIt = false;
           let o = chatData.length;
 
           for (let idx = 0; idx < o; idx++) {
@@ -100,14 +102,18 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
             
             if (chatUserId == connectedUserId) {
               chatUserId = chatData[idx].id.substring(40, 76);
+              //console.log("chatUserId", chatUserId);
             }
+
+
+            
 
             if (lookForUserId == chatUserId) {
               const chatUrl = ChatService.fixUrl(chatData[idx].webUrl);
-              //const chat: Chat = {userId: lookForUserId, displayName: lookForUserName, chatUrl: chatUrl};
+              const chat: Chat = {userId: lookForUserId, displayName: lookForUserName, chatUrl: chatUrl};
 
-              //chatList.push(chat)
-              //foundIt = true;
+              chatList.push(chat)
+              foundIt = true;
 
               let user: any = users.PrimarySearchResults[index];
               user = {
@@ -118,10 +124,10 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
             }
           }
 
-          // if (foundIt == false)  {
-          //   const chat: Chat = {userId: lookForUserId, displayName: lookForUserName, chatUrl: ""};
-          //   chatList.push(chat)
-          // }
+          if (foundIt == false)  {
+            const chat: Chat = {userId: lookForUserId, displayName: lookForUserName, chatUrl: ""};
+            chatList.push(chat)
+          }
         }
 
         setstate({
@@ -131,7 +137,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
       }
     });
 
-    //console.log("chatList", chatList);
+    console.log("chatList", chatList);
   }
 
   const strings: ISpfxReactDirectoryWebpartWebPartStrings = SelectLanguage(props.prefLang);

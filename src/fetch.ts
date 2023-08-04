@@ -62,7 +62,15 @@ export const callApiWithToken = async (accessToken: string, apiEndpoint: string,
         headers: headers
     };
 
-    apiEndpoint = apiEndpoint + '?userId=' + userId;
+    console.log("indexOf", apiEndpoint.indexOf("?"));
+
+    if (apiEndpoint.indexOf("?") >= 0) {
+        apiEndpoint = apiEndpoint + '&userId=' + userId;
+    } else {
+        apiEndpoint = apiEndpoint + '?userId=' + userId;
+    }
+
+    
     //console.log('apiEndpoint = ' + apiEndpoint);
 
     const response = await fetch(apiEndpoint, options);

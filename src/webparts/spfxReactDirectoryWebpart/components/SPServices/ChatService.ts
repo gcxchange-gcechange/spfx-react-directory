@@ -1,7 +1,6 @@
 import * as MicrosoftGraph from "@microsoft/microsoft-graph-types";
 import { callApiWithToken } from "../../../../fetch";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
-import { InteractionType } from '@azure/msal-browser';
 
 export class ChatServiceManager {
     public context: WebPartContext;
@@ -16,10 +15,11 @@ export class ChatServiceManager {
     }
 
     public getChats(accessToken: string, activeAccount: any): Promise<MicrosoftGraph.Chat[]> {
-        const apiTxt: string = 'https://graph.microsoft.com/v1.0/users/' + activeAccount.localAccountId + '/chats';
+        const apiTxt: string = 'https://graph.microsoft.com/v1.0/users/' + activeAccount.localAccountId + '/chats?$top=50';
   
         return new Promise((resolve, reject) => {
           try {
+            console.log("apiTxt", apiTxt);
             callApiWithToken(accessToken, apiTxt, activeAccount)
             .then((response) => {
                 resolve(response.value);
