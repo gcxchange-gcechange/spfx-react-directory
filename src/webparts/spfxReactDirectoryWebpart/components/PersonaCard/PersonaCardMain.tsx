@@ -46,10 +46,10 @@ const wrapStackTokens: IStackTokens = { childrenGap: 30 };
 
 const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   const { instance } = useMsal();
-  const activeAccount: any = instance.getActiveAccount();        
+  const activeAccount: any = instance.getActiveAccount();
   const accountName: string = activeAccount ? activeAccount.username + ' (' + activeAccount.localAccountId + ')' :  'not active';    
+ 
   const resource = new URL(protectedResources.apiChat.endpoint).hostname;
-
   const request = {
     scopes: protectedResources.scopes.chatRead,
     account: activeAccount,
@@ -58,29 +58,16 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
             : undefined,
     sid: ChatService.context.pageContext.legacyPageContext.aadSessionId
   };
- 
-  const { acquireToken, result, error } = useMsalAuthentication(
-    InteractionType.Silent,
-    {...request, redirectUri: ''}
-  );
 
-  const _getUserChats = async () => {
-    //console.log("Call to _getUserChats");
+  const { result, error } = useMsalAuthentication(InteractionType.Silent, {...request, redirectUri: ''});
 
+  const _getUserChats = async (accessToken: string, activeAccount: any) => {
     let chatUserId:string = '';
     let connectedUserId:string = activeAccount != null ? activeAccount.localAccountId : null;
     let lookForUserId:string = '';
     let lookForUserName:string = '';
     let foundIt:boolean = false;
     let chatList: Chat[] = [];
-
-    let accessToken: string;
-
-    if (result) {
-      accessToken = result.accessToken;
-    } else {
-      accessToken = "";
-    }
 
     ChatService.getChats(accessToken, activeAccount).then((chatData) => {
       if (chatData) {
@@ -102,11 +89,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
             
             if (chatUserId == connectedUserId) {
               chatUserId = chatData[idx].id.substring(40, 76);
-              //console.log("chatUserId", chatUserId);
             }
-
-
-            
 
             if (lookForUserId == chatUserId) {
               const chatUrl = ChatService.fixUrl(chatData[idx].webUrl);
@@ -411,9 +394,11 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
 
   useEffect(() => {
     if (state.searchFinished) {
-      _getUserChats();
+      if (result) {
+        _getUserChats(result.accessToken, activeAccount);
+      }
     }
-  }, [state.searchFinished]);
+  }, [accountName, state.searchFinished]);   // state.searchFinished
 
   const itemAlignmentsStackTokens: IStackTokens = {
     childrenGap: 20,
@@ -444,7 +429,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
 
   return (
     <div className={styles.reactDirectory} lang={props.prefLang}>
-        <p>accountName: {accountName}</p>
+      <p>accountName: {accountName}</p>
       <div className={styles.searchBox}>
         <Stack horizontal tokens={itemAlignmentsStackTokens}>
           <Stack.Item order={1} styles={stackItemStyles}>

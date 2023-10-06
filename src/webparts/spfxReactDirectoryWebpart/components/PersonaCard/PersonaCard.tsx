@@ -52,7 +52,6 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
       const sharedLibrary = await this._loadSPComponentById(LIVE_PERSONA_COMPONENT_ID);
       const livePersonaCard: any = sharedLibrary.LivePersonaCard;
       this.setState({ livePersonaCard: livePersonaCard });
-      console.log("componentDidMount");
     }
   }
 

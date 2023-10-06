@@ -19,17 +19,40 @@ export class ChatServiceManager {
   
         return new Promise((resolve, reject) => {
           try {
-            console.log("apiTxt", apiTxt);
             callApiWithToken(accessToken, apiTxt, activeAccount)
             .then((response) => {
-                resolve(response.value);
+              //resolve(response.value);
+              let responseResults:any[] = [];
+              responseResults.push(...response.value);
+
+              let link = response["@odata.nextLink"];
+
+              if (link) {
+                const handleNextPage = (url: string) => {
+                  callApiWithToken(accessToken, url, activeAccount).then((response2) => {
+                    const nextLink = response2["@odata.nextLink"];
+                    responseResults.push(...response2.value);
+
+                    if (nextLink) {
+                      handleNextPage(nextLink);
+                    } else {
+                      resolve(responseResults);
+                    }
+                  })
+                }
+
+                handleNextPage(link); 
+              }
+              else {
+                resolve(responseResults)
+              }
             })
             .catch((error) => {
-                console.log("error.message", error.message);
+                console.log("callApiWithToken error:", error.message);
             });
           }
             catch(error) {
-            console.log("error yo!", error);
+            console.log("Error in getChats:", error);
             reject(error);
           }
         });
