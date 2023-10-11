@@ -56,11 +56,11 @@ export const msalConfig = {
  */
  export const protectedResources = {
      apiChat: {
-         endpoint: 'https://appsvc-fnc-dev-scw-obo-poc-dotnet001.azurewebsites.net/api/ConnectAsUser'
+         endpoint: 'https://appsvc-function-dev-cchat-dotnet001.azurewebsites.net/api/CreateChat'
         },
         scopes: {
             chatRead: ['Chat.Read'],
-            chatCreate: ['api://bb3f56a5-f673-4884-a81e-4145cabfff01/access_graph_on_behalf_of_user']
+            chatCreate: ['api://06a94296-b8a4-4395-bc26-ed5de9c9e80a/access_graph_on_behalf_of_user']
         }
  };
  
