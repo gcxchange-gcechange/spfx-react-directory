@@ -5,4 +5,6 @@ export interface IPersonaCardProps {
   context: WebPartContext;
   profileProperties: IUserProperties;
   prefLang: string;
+  activeAccount: any;
+  instance: any;
 }

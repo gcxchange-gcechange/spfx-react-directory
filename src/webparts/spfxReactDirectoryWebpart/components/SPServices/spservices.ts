@@ -1,6 +1,13 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { sp, SearchQuery, SearchResults, SortDirection } from "@pnp/sp";
 import { ISPServices } from "./ISPServices";
+import { useMsal, useMsalAuthentication } from "@azure/msal-react";
+import ChatService from "./ChatService";
+import { getClaimsFromStorage } from "../../../../utils/storageUtils";
+import { msalConfig, protectedResources } from "../../../../authConfig";
+import { InteractionType } from '@azure/msal-browser';
+import * as React from "react";
+
 
 export class spservices implements ISPServices {
   constructor(private context: WebPartContext) {
@@ -17,7 +24,9 @@ export class spservices implements ISPServices {
     isInitialSearch: boolean,
     hidingUsers: string[],
     startItem: number,
-    endItem: number
+    endItem: number,
+    //accessToken: any,
+    //activeAccount: any,
   ): Promise<SearchResults> {
     let qrytext: string = "";
 
@@ -57,8 +66,8 @@ export class spservices implements ISPServices {
         SourceId: "b09a7990-05ea-4af9-81ef-edfab16c4e31",
         SortList: [{ Property: "FirstName", Direction: SortDirection.Ascending }],
       });
+
       let n = users.PrimarySearchResults.length;
-      console.log("users", users);
       if (users && n > 0) {
         for (let index = 0; index < n; index++) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -69,8 +78,8 @@ export class spservices implements ISPServices {
             index = index - 1;
           }
         }
-        const client = await context.msGraphClientFactory.getClient();
 
+        const client = await context.msGraphClientFactory.getClient();
         const body = { requests: [] };
         users.PrimarySearchResults.forEach((user) => {
           const requestUrl: string = `/users/${user.UniqueId}/photo/$value`;
@@ -81,7 +90,7 @@ export class spservices implements ISPServices {
           });
         });
         const response = await client.api("$batch").version("v1.0").post(body);
-        console.log("response", response);
+
         response.responses.forEach((r) => {
           if (r.status === 200) {
             users.PrimarySearchResults.map((u, index) => {
@@ -112,6 +121,7 @@ export class spservices implements ISPServices {
           }
         });
       }
+      
       return users;
     } catch (error) {
       Promise.reject(error)

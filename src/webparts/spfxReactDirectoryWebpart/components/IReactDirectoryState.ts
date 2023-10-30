@@ -7,4 +7,5 @@ export interface IReactDirectoryState {
   indexSelectedKey: string;
   searchString: string;
   searchText: string;
+  searchFinished: boolean;
 }
