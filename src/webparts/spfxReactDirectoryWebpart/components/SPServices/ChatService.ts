@@ -22,10 +22,10 @@ export class ChatServiceManager {
             callApiWithToken(accessToken, apiTxt, activeAccount)
             .then((response) => {
               //resolve(response.value);
-              let responseResults:any[] = [];
+              const responseResults:any[] = [];
               responseResults.push(...response.value);
 
-              let link = response["@odata.nextLink"];
+              const link = response["@odata.nextLink"];
 
               if (link) {
                 const handleNextPage = (url: string) => {

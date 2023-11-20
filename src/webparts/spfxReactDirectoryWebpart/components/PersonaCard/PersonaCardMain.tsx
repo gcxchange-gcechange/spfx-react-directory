@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
@@ -73,6 +74,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
       if (chatData) {
         console.log("chatData", chatData);
         
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         const users = state.users;
 
         let n = users.PrimarySearchResults.length;
@@ -113,7 +115,9 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
           }
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         setstate({
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
           ...state,
           users: users
         });        
