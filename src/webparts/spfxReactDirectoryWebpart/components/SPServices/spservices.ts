@@ -1,12 +1,12 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { sp, SearchQuery, SearchResults, SortDirection } from "@pnp/sp";
 import { ISPServices } from "./ISPServices";
-import { useMsal, useMsalAuthentication } from "@azure/msal-react";
-import ChatService from "./ChatService";
-import { getClaimsFromStorage } from "../../../../utils/storageUtils";
-import { msalConfig, protectedResources } from "../../../../authConfig";
-import { InteractionType } from '@azure/msal-browser';
-import * as React from "react";
+// import { useMsal, useMsalAuthentication } from "@azure/msal-react";
+// import ChatService from "./ChatService";
+// import { getClaimsFromStorage } from "../../../../utils/storageUtils";
+// import { msalConfig, protectedResources } from "../../../../authConfig";
+// import { InteractionType } from '@azure/msal-browser';
+// import * as React from "react";
 
 
 export class spservices implements ISPServices {
