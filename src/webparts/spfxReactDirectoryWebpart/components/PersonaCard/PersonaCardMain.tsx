@@ -23,9 +23,7 @@ import {
   Image,
   IImageProps,
   ImageFit,
-  PrimaryButton,
-  IStyleSet,
-  IPivotStyles,
+  PrimaryButton,  
   Stack,
   IStackTokens,
 } from "@fluentui/react";
@@ -60,15 +58,16 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     sid: ChatService.context.pageContext.legacyPageContext.aadSessionId
   };
 
-  const { result, error } = useMsalAuthentication(InteractionType.Silent, {...request, redirectUri: ''});
+  const { result } = useMsalAuthentication(InteractionType.Silent, {...request, redirectUri: ''});
 
   const _getUserChats = async (accessToken: string, activeAccount: any) => {
     let chatUserId:string = '';
-    let connectedUserId:string = activeAccount != null ? activeAccount.localAccountId : null;
+    // eslint-disable-next-line eqeqeq
+    const connectedUserId:string = activeAccount != null ? activeAccount.localAccountId : null;
     let lookForUserId:string = '';
     let lookForUserName:string = '';
     let foundIt:boolean = false;
-    let chatList: Chat[] = [];
+    const chatList: Chat[] = [];
 
     ChatService.getChats(accessToken, activeAccount).then((chatData) => {
       if (chatData) {
@@ -77,22 +76,25 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         const users = state.users;
 
-        let n = users.PrimarySearchResults.length;
-        let o = chatData.length;
+        const n = users.PrimarySearchResults.length;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const o = chatData.length;
 
         for (let index = 0; index < n; index++) {
           lookForUserId = users.PrimarySearchResults[index].UniqueId;
           lookForUserName = users.PrimarySearchResults[index].Title;
           foundIt = false;
-          let o = chatData.length;
+          const o = chatData.length;
 
           for (let idx = 0; idx < o; idx++) {
             chatUserId = chatData[idx].id.substring(3, 39);
             
+            // eslint-disable-next-line eqeqeq
             if (chatUserId == connectedUserId) {
               chatUserId = chatData[idx].id.substring(40, 76);
             }
 
+            // eslint-disable-next-line eqeqeq
             if (lookForUserId == chatUserId) {
               const chatUrl = ChatService.fixUrl(chatData[idx].webUrl);
               const chat: Chat = {userId: lookForUserId, displayName: lookForUserName, chatUrl: chatUrl};
@@ -109,7 +111,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
             }
           }
 
-          if (foundIt == false)  {
+          if (foundIt === false)  {
             const chat: Chat = {userId: lookForUserId, displayName: lookForUserName, chatUrl: ""};
             chatList.push(chat)
           }

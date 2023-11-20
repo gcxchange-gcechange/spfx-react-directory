@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import * as MicrosoftGraph from "@microsoft/microsoft-graph-types";
 import { callApiWithToken } from "../../../../fetch";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
@@ -28,7 +29,7 @@ export class ChatServiceManager {
               const link = response["@odata.nextLink"];
 
               if (link) {
-                const handleNextPage = (url: string) => {
+                const handleNextPage = (url: string):any => {
                   callApiWithToken(accessToken, url, activeAccount).then((response2) => {
                     const nextLink = response2["@odata.nextLink"];
                     responseResults.push(...response2.value);
