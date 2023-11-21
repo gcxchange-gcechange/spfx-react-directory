@@ -40,7 +40,8 @@ None
 - To install the dependencies, in the command-line run:
   - **npm install**
 - To debug in the front end:
-  - go to the `serve.json` file and update `initialPage` to `https://your-domain-name.sharepoint.com/_layouts/15/workbench.aspx`
+  - go to the `serve.json` file and update `initialPage` to
+    - `https://your-domain-name.sharepoint.com/_layouts/15/workbench.aspx`
   - In the command-line run:
     - **gulp serve**
 - To deploy:
