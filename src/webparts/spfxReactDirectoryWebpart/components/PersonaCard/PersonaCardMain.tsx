@@ -429,7 +429,6 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
 
   return (
     <div className={styles.reactDirectory} lang={props.prefLang}>
-      <p>accountName: {accountName}</p>
       <div className={styles.searchBox}>
         <Stack horizontal tokens={itemAlignmentsStackTokens}>
           <Stack.Item order={1} styles={stackItemStyles}>
