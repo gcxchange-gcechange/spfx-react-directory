@@ -1,4 +1,5 @@
 declare interface ISpfxReactDirectoryWebpartWebPartStrings {
+  userLang:string;
   TitleFieldLabel: string;
   PropertyPaneDescription: string;
   BasicGroupName: string;
@@ -27,7 +28,7 @@ declare interface ISpfxReactDirectoryWebpartWebPartStrings {
   NoUserFoundEmailBody: string;
   NoUserFoundEmail: string;
 
-  SearchButtonLabel:String;
+  SearchButtonLabel: String;
 }
 
 declare module 'SpfxReactDirectoryWebpartWebPartStrings' {

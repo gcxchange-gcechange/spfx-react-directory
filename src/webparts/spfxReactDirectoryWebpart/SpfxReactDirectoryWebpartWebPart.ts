@@ -14,6 +14,7 @@ import * as strings from "SpfxReactDirectoryWebpartWebPartStrings";
 import DirectoryHook from "./components/DirectoryHook";
 import { IReactDirectoryProps } from "./components/IReactDirectoryProps";
 import ChatService from "./components/SPServices/ChatService";
+import { SelectLanguage } from "./components/SelectLanguage";
 
 export interface ISpfxReactDirectoryWebpartWebPartProps {
   title: string;
@@ -26,6 +27,7 @@ export interface ISpfxReactDirectoryWebpartWebPartProps {
 export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebPart<ISpfxReactDirectoryWebpartWebPartProps> {
   private _isDarkTheme: boolean = false;
   private _environmentMessage: string = "";
+  private strings: ISpfxReactDirectoryWebpartWebPartStrings;
 
   public render(): void {
     const element: React.ReactElement<IReactDirectoryProps> = React.createElement(DirectoryHook, {
@@ -40,14 +42,12 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
       hidingUsers: this.properties.hidingUsers,
     });
 
-
-    
-
     ReactDom.render(element, this.domElement);
     //console.log("ReactDome.rendered");
   }
 
   protected onInit(): Promise<void> {
+    this.strings = SelectLanguage(this.properties.prefLang);
     return this._getEnvironmentMessage().then((message) => {
       this._environmentMessage = message;
       ChatService.setup(this.context);
@@ -129,6 +129,7 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
                     { key: "en-us", text: "English" },
                     { key: "fr-fr", text: "Français" },
                   ],
+                  selectedKey: this.strings.userLang,
                 }),
                 PropertyPaneTextField("hidingUsers", {
                   label: "Users not in serach",
