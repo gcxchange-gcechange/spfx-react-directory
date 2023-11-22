@@ -12,7 +12,7 @@ _Adding a visualisation is possible. Need to keep in mind that it should only re
 
 ### Settings / Property Pane:
 
-![Property Pane](./src/webparts/spfxReactDirectoryWebpart/assets/webpart.png)
+![Property Pane](./src/webparts/spfxReactDirectoryWebpart/assets/propertypane.png)
 
 ## Prerequisites
 
