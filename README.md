@@ -6,6 +6,14 @@ Short description of what the webpart do. Give the basic information and feature
 
 _Adding a visualisation is possible. Need to keep in mind that it should only reflect what is provide in the short description. Plus, an short description of the image or animation need to be provide in the alt._
 
+### Webpart:
+
+![Webpart](./src/webparts/spfxReactDirectoryWebpart/assets/webpart.png)
+
+### Settings / Property Pane:
+
+![Property Pane](./src/webparts/spfxReactDirectoryWebpart/assets/webpart.png)
+
 ## Prerequisites
 
 None
@@ -17,7 +25,7 @@ None
 ## Version
 
 ![SPFX](https://img.shields.io/badge/SPFX-1.17.4-green.svg)
-![Node.js](https://img.shields.io/badge/Node.js-v16.3+-green.svg)
+![Node.js](https://img.shields.io/badge/Node.js-v16.13+-green.svg)
 
 ## Applies to
 
