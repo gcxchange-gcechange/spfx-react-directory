@@ -395,6 +395,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   useEffect(() => {
     if (state.searchFinished) {
       if (result) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         _getUserChats(result.accessToken, activeAccount);
       }
     }
@@ -416,16 +417,6 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     src: require("../../assets/HidingYeti.png"),
   };
 
-  // const piviotStyles: Partial<IStyleSet<IPivotStyles>> = {
-  //   link: {
-  //     backgroundColor: "#e3e1e1",
-  //     color: "#000",
-  //     fontSize: "17px",
-  //   },
-  //   linkIsSelected: {
-  //     fontSize: "17px",
-  //   },
-  // };
 
   return (
     <div className={styles.reactDirectory} lang={props.prefLang}>
