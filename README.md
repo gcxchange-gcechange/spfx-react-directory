@@ -2,9 +2,13 @@
 
 ## Summary
 
-Short description of what the webpart do. Give the basic information and feature of the app.
-
-_Adding a visualisation is possible. Need to keep in mind that it should only reflect what is provide in the short description. Plus, an short description of the image or animation need to be provide in the alt._
+- The webpart shows all the users in the SharePoint site.
+- Able to search users by their firstname or lastname and firstname and lastname. Searchbox is provided to enter the seachtext.
+- Able to show the users whose firstname or lastname starts with selected letter. Aplhabets is provided to select.
+- Pagination is implemented and able to choose Results per page in the Settings/Propertypane.
+- Able to change the language (English/French) in the property pane.
+- Able to hide any user by entering the user id in the Settings/Propertypane.
+- Able to send email and chat with any user.
 
 ### Webpart:
 
