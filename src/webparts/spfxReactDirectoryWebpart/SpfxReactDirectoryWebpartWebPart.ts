@@ -17,7 +17,6 @@ import ChatService from "./components/SPServices/ChatService";
 import { SelectLanguage } from "./components/SelectLanguage";
 
 export interface ISpfxReactDirectoryWebpartWebPartProps {
-  title: string;
   searchProps: string;
   pageSize: number;
   prefLang: string;
@@ -31,12 +30,8 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
 
   public render(): void {
     const element: React.ReactElement<IReactDirectoryProps> = React.createElement(DirectoryHook, {
-      title: this.properties.title,
       context: this.context,
-      displayMode: this.displayMode,
-      updateProperty: (value: string) => {
-        this.properties.title = value;
-      },
+      displayMode: this.displayMode,     
       pageSize: this.properties.pageSize,
       prefLang: this.properties.prefLang,
       hidingUsers: this.properties.hidingUsers,

@@ -24,10 +24,9 @@ pca.addEventCallback((event: any) => {
 const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
   return (
     <MsalProvider instance={pca}>
-      <PersonaCardMain title={props.title}
+      <PersonaCardMain 
                        context={props.context}
                        displayMode={props.displayMode}
-                       updateProperty={props.updateProperty}
                        pageSize={props.pageSize}
                        prefLang={props.prefLang}
                        hidingUsers={props.hidingUsers} />
