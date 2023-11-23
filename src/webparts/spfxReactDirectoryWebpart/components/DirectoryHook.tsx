@@ -26,7 +26,6 @@ const DirectoryHook: React.FC<IReactDirectoryProps> = (props) => {
     <MsalProvider instance={pca}>
       <PersonaCardMain 
                        context={props.context}
-                       displayMode={props.displayMode}
                        pageSize={props.pageSize}
                        prefLang={props.prefLang}
                        hidingUsers={props.hidingUsers} />

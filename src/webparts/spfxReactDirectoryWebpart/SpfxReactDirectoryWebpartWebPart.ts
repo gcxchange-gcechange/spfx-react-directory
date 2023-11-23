@@ -31,7 +31,6 @@ export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebP
   public render(): void {
     const element: React.ReactElement<IReactDirectoryProps> = React.createElement(DirectoryHook, {
       context: this.context,
-      displayMode: this.displayMode,     
       pageSize: this.properties.pageSize,
       prefLang: this.properties.prefLang,
       hidingUsers: this.properties.hidingUsers,
