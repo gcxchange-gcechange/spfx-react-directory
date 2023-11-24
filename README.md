@@ -3,8 +3,8 @@
 ## Summary
 
 - The webpart shows all the users in the SharePoint site.
-- Able to search users by their firstname or lastname and firstname and lastname. Searchbox is provided to enter the seachtext.
-- Able to show the users whose firstname or lastname starts with selected letter. Alphabets are provided to select.
+- Able to search users by their firstname or lastname or both. Searchbox is provided to enter the seachtext.
+- Able to show the users whose firstname or lastname starts with selected letter. Alphabet letters are provided to select.
 - Pagination is implemented and able to choose Results per page in the Settings/Propertypane.
 - Able to change the language (English/French) in the property pane.
 - Able to hide any user by entering the user id in the Settings/Propertypane.
