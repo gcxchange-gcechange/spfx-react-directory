@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 import styles from "../ReactDirectory.module.scss";
 
-
 import { IReactDirectoryState } from "../IReactDirectoryState";
 
 import {
@@ -47,32 +46,38 @@ const wrapStackTokens: IStackTokens = { childrenGap: 30 };
 const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   const { instance } = useMsal();
   const activeAccount: any = instance.getActiveAccount();
-  const accountName: string = activeAccount ? activeAccount.username + ' (' + activeAccount.localAccountId + ')' :  'not active';    
- 
+  const accountName: string = activeAccount
+    ? activeAccount.username + " (" + activeAccount.localAccountId + ")"
+    : "not active";
+
   const resource = new URL(protectedResources.apiChat.endpoint).hostname;
   const request = {
     scopes: protectedResources.scopes.chatRead,
     account: activeAccount,
-    claims: activeAccount && getClaimsFromStorage(`cc.${msalConfig.auth.clientId}.${activeAccount.idTokenClaims.oid}.${resource}`)
-            ? window.atob(getClaimsFromStorage(`cc.${msalConfig.auth.clientId}.${activeAccount.idTokenClaims.oid}.${resource}`))
-            : undefined,
-    sid: ChatService.context.pageContext.legacyPageContext.aadSessionId
+    claims:
+      activeAccount &&
+      getClaimsFromStorage(`cc.${msalConfig.auth.clientId}.${activeAccount.idTokenClaims.oid}.${resource}`)
+        ? window.atob(
+            getClaimsFromStorage(`cc.${msalConfig.auth.clientId}.${activeAccount.idTokenClaims.oid}.${resource}`)
+          )
+        : undefined,
+    sid: ChatService.context.pageContext.legacyPageContext.aadSessionId,
   };
 
-  const { result, error } = useMsalAuthentication(InteractionType.Silent, {...request, redirectUri: ''});
+  const { result, error } = useMsalAuthentication(InteractionType.Silent, { ...request, redirectUri: "" });
 
   const _getUserChats = async (accessToken: string, activeAccount: any) => {
-    let chatUserId:string = '';
-    let connectedUserId:string = activeAccount != null ? activeAccount.localAccountId : null;
-    let lookForUserId:string = '';
-    let lookForUserName:string = '';
-    let foundIt:boolean = false;
+    let chatUserId: string = "";
+    let connectedUserId: string = activeAccount != null ? activeAccount.localAccountId : null;
+    let lookForUserId: string = "";
+    let lookForUserName: string = "";
+    let foundIt: boolean = false;
     let chatList: Chat[] = [];
 
     ChatService.getChats(accessToken, activeAccount).then((chatData) => {
       if (chatData) {
         console.log("chatData", chatData);
-        
+
         const users = state.users;
 
         let n = users.PrimarySearchResults.length;
@@ -86,42 +91,42 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
 
           for (let idx = 0; idx < o; idx++) {
             chatUserId = chatData[idx].id.substring(3, 39);
-            
+
             if (chatUserId == connectedUserId) {
               chatUserId = chatData[idx].id.substring(40, 76);
             }
 
             if (lookForUserId == chatUserId) {
               const chatUrl = ChatService.fixUrl(chatData[idx].webUrl);
-              const chat: Chat = {userId: lookForUserId, displayName: lookForUserName, chatUrl: chatUrl};
+              const chat: Chat = { userId: lookForUserId, displayName: lookForUserName, chatUrl: chatUrl };
 
-              chatList.push(chat)
+              chatList.push(chat);
               foundIt = true;
 
               let user: any = users.PrimarySearchResults[index];
               user = {
                 ...user,
-                ChatURL: chatUrl
+                ChatURL: chatUrl,
               };
               users.PrimarySearchResults[index] = user;
             }
           }
 
-          if (foundIt == false)  {
-            const chat: Chat = {userId: lookForUserId, displayName: lookForUserName, chatUrl: ""};
-            chatList.push(chat)
+          if (foundIt == false) {
+            const chat: Chat = { userId: lookForUserId, displayName: lookForUserName, chatUrl: "" };
+            chatList.push(chat);
           }
         }
 
         setstate({
           ...state,
-          users: users
-        });        
+          users: users,
+        });
       }
     });
 
     console.log("chatList", chatList);
-  }
+  };
 
   const strings: ISpfxReactDirectoryWebpartWebPartStrings = SelectLanguage(props.prefLang);
   let _services: ISPServices = null;
@@ -137,7 +142,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     indexSelectedKey: "A",
     searchString: "FirstName",
     searchText: "",
-    searchFinished: false
+    searchFinished: false,
   });
   const hidingUsers: string[] = props.hidingUsers && props.hidingUsers.length > 0 ? props.hidingUsers.split("/") : [];
 
@@ -173,9 +178,10 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
       setstate({
         ...state,
         isLoading: true,
-        searchFinished: false
+        searchFinished: false,
       });
-      const searchText = state.searchText.length > 0 ? state.searchText : alphaKey.length > 0 && alphaKey !== "0" ? alphaKey : null;
+      const searchText =
+        state.searchText.length > 0 ? state.searchText : alphaKey.length > 0 && alphaKey !== "0" ? alphaKey : null;
 
       const users = await _services.searchUsersNew(
         props.context,
@@ -184,7 +190,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
         true,
         hidingUsers,
         startItem,
-        pageSize,
+        pageSize
         // AccessToken,
         // activeAccount
       );
@@ -198,7 +204,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
         isLoading: false,
         errorMessage: "",
         hasError: false,
-        searchFinished: true
+        searchFinished: true,
       });
     }
   };
@@ -206,21 +212,20 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   const diretoryGrid =
     pagedItems && pagedItems.length > 0
       ? pagedItems.map((user: any, index: number) => {
-        
-        return (
+          return (
             <PersonaCard
               key={index}
               context={props.context}
               prefLang={props.prefLang}
               activeAccount={activeAccount}
               instance={instance}
-
               // accessToken={""}
               // activeAccount={null}
 
               profileProperties={{
                 Id: user.UniqueId,
-                DisplayName: user.FirstName && user.LastName ? `${user.FirstName}   ${user.LastName}` : user.PreferredName,
+                DisplayName:
+                  user.FirstName && user.LastName ? `${user.FirstName}   ${user.LastName}` : user.PreferredName,
                 Title: user.JobTitle,
                 PictureUrl: user.PictureURL,
                 Email: user.WorkEmail,
@@ -249,7 +254,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
         searchText: "",
         indexSelectedKey: item.props.itemKey,
         isLoading: true,
-        searchFinished: false
+        searchFinished: false,
       });
 
       setalphaKey(item.props.itemKey);
@@ -276,7 +281,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
       isLoading: false,
       errorMessage: "",
       hasError: false,
-      searchFinished: true
+      searchFinished: true,
     });
   };
 
@@ -285,7 +290,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
       setstate({
         ...state,
         isLoading: true,
-        searchFinished: false
+        searchFinished: false,
       });
       setalphaKey("");
       const searchText = state.searchText;
@@ -307,10 +312,10 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
           false,
           hidingUsers,
           startItem,
-          pageSize,
-        //   AccessToken,
-        //   activeAccount
-         );
+          pageSize
+          //   AccessToken,
+          //   activeAccount
+        );
 
         setstate({
           ...state,
@@ -320,7 +325,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
           isLoading: false,
           errorMessage: "",
           hasError: false,
-          searchFinished: true
+          searchFinished: true,
         });
       } else {
         setstate({ ...state, searchText: "" });
@@ -338,9 +343,13 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     setstate({
       ...state,
       searchText: newvalue,
-      searchFinished: false
+      searchFinished: false,
     });
   };
+
+  useEffect(() => {
+    _loadAlphabets();
+  }, []);
 
   //_searchUsers = _.debounce(_searchUsers, 500);
 
@@ -382,7 +391,6 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   }, [alphaKey]);
 
   useEffect(() => {
-    _loadAlphabets();
     _searchByAlphabets(true)
       .then((data) => {
         return data;
@@ -399,7 +407,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
         _getUserChats(result.accessToken, activeAccount);
       }
     }
-  }, [accountName, state.searchFinished]);   // state.searchFinished
+  }, [accountName, state.searchFinished]); // state.searchFinished
 
   const itemAlignmentsStackTokens: IStackTokens = {
     childrenGap: 20,
@@ -416,7 +424,6 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     height: 200,
     src: require("../../assets/HidingYeti.png"),
   };
-
 
   return (
     <div className={styles.reactDirectory} lang={props.prefLang}>
