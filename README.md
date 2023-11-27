@@ -2,13 +2,13 @@
 
 ## Summary
 
-- The webpart shows all the users in the SharePoint site.
-- Able to search users by their firstname or lastname or both. Searchbox is provided to enter the seachtext.
+- The webpart shows all the users in Entra ID.
+- Able to search users by their firstname or lastname or both.
 - Able to show the users whose firstname or lastname starts with selected letter. Alphabet letters are provided to select.
-- Pagination is implemented and able to choose Results per page in the Settings/Propertypane.
+- Pagination is implemented and able to choose the number of results per page in the Settings/Propertypane.
 - Able to change the language (English/French) in the property pane.
 - Able to hide any user by entering the user id in the Settings/Propertypane.
-- Able to send email and chat with any user.
+- Able to send email to any user.
 
 ### Webpart:
 
