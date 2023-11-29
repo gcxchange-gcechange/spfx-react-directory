@@ -440,7 +440,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
               className={styles.searchTextBox}
               onSearch={_searchUsers}
               value={state.searchText}
-              //onChanged={_searchBoxChanged}
+              onChanged={_searchBoxChanged}
             />
           </Stack.Item>
           <Stack.Item order={2}>
