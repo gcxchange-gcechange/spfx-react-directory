@@ -33,22 +33,10 @@ const Paging: React.FC<IPagingProps> = (props) => {
       <div className={styles.searchWp__paginationContainer__pagination}>
         <Pagination
           activePage={currentPage}
-          firstPageText={
-            <i
-              className="ms-Icon ms-Icon--DoubleChevronLeft"
-              aria-hidden="true"/>
-          }
-          lastPageText={
-            <i
-              className="ms-Icon ms-Icon--DoubleChevronRight"
-              aria-hidden="true" />
-          }
-          prevPageText={
-            <i className="ms-Icon ms-Icon--ChevronLeft" aria-hidden="true" />
-          }
-          nextPageText={
-            <i className="ms-Icon ms-Icon--ChevronRight" aria-hidden="true" />
-          }
+          firstPageText={<i className="ms-Icon ms-Icon--DoubleChevronLeft" />}
+          lastPageText={<i className="ms-Icon ms-Icon--DoubleChevronRight" />}
+          prevPageText={<i className="ms-Icon ms-Icon--ChevronLeft" />}
+          nextPageText={<i className="ms-Icon ms-Icon--ChevronRight" />}
           activeLinkClass={styles.active}
           itemsCountPerPage={props.itemsCountPerPage}
           totalItemsCount={props.totalItems}
