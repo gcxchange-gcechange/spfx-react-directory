@@ -170,7 +170,7 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
                     <a
                       aria-label={`link to chat`}
                       href={`${this.props.profileProperties.Chat}`}
-                      target="_blank"
+                      target="_blank" rel="noreferrer"
                     >
                       MS Teams Chat
                     </a>

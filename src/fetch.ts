@@ -14,7 +14,7 @@ import { parseChallenges } from './utils/claimUtils';
  * @param {object} response
  * @returns response
  */
-export const handleClaimsChallenge = async (response: Response, apiEndpoint: string | URL, account: { homeAccountId?: string; environment?: string; tenantId?: string; username?: string; localAccountId?: string; name?: string; idToken?: string; idTokenClaims: any; nativeAccountId?: string; }) => {
+export const handleClaimsChallenge = async (response: Response, apiEndpoint: string | URL, account: { homeAccountId?: string; environment?: string; tenantId?: string; username?: string; localAccountId?: string; name?: string; idToken?: string; idTokenClaims: any; nativeAccountId?: string; }):Promise<any> => {
     if (response.status === 200) {
         return response.json();
     } else if (response.status === 401) {   // Unauthorized
@@ -49,7 +49,7 @@ export const handleClaimsChallenge = async (response: Response, apiEndpoint: str
  * @param {string} apiEndpoint 
  * @returns 
  */
-export const callApiWithToken = async (accessToken: string, apiEndpoint: string, account: any, userId: string = '') => {
+export const callApiWithToken = async (accessToken: string, apiEndpoint: string, account: any, userId: string = ''):Promise<any> => {
     const headers = new Headers();
     const bearer = `Bearer ${accessToken}`;
 

@@ -1,18 +1,34 @@
-import { WebPartContext } from "@microsoft/sp-webpart-base";
-import { sp, SearchQuery, SearchResults, SortDirection } from "@pnp/sp";
-import { ISPServices } from "./ISPServices";
-import { useMsal, useMsalAuthentication } from "@azure/msal-react";
-import ChatService from "./ChatService";
-import { getClaimsFromStorage } from "../../../../utils/storageUtils";
-import { msalConfig, protectedResources } from "../../../../authConfig";
-import { InteractionType } from '@azure/msal-browser';
-import * as React from "react";
+// import { WebPartContext } from "@microsoft/sp-webpart-base";
+// //import { sp, SearchQuery, SearchResults, SortDirection } from "@pnp/sp";
+// import { SearchResults, ISearchQuery, SortDirection } from "@pnp/sp/search";
 
+// import { ISPServices } from "./ISPServices";
+// import { useMsal, useMsalAuthentication } from "@azure/msal-react";
+// import ChatService from "./ChatService";
+// import { getClaimsFromStorage } from "../../../../utils/storageUtils";
+// import { msalConfig, protectedResources } from "../../../../authConfig";
+// import { InteractionType } from '@azure/msal-browser';
+// import * as React from "react";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
+import { sp } from "@pnp/sp";
+import { SearchResults, ISearchQuery, SortDirection } from "@pnp/sp/search";
+import { ISPServices } from "./ISPServices";
 
 export class spservices implements ISPServices {
+  // constructor(private context: WebPartContext) {
+  //   sp.setup({
+  //     spfxContext: this.context,
+  //   });
+  // }
   constructor(private context: WebPartContext) {
     sp.setup({
-      spfxContext: this.context,
+      spfxContext: {
+        pageContext: {
+          web: {
+            absoluteUrl: this.context.pageContext.web.absoluteUrl,
+          },
+        },
+      },
     });
   }
 
@@ -24,7 +40,7 @@ export class spservices implements ISPServices {
     isInitialSearch: boolean,
     hidingUsers: string[],
     startItem: number,
-    endItem: number,
+    endItem: number
     //accessToken: any,
     //activeAccount: any,
   ): Promise<SearchResults> {
@@ -57,7 +73,7 @@ export class spservices implements ISPServices {
       "GroupId",
     ];
     try {
-      const users = await sp.search(<SearchQuery>{
+      const users = await sp.search(<ISearchQuery>{
         Querytext: qrytext,
         StartRow: startItem,
         RowLimit: endItem,
@@ -121,7 +137,7 @@ export class spservices implements ISPServices {
           }
         });
       }
-      
+
       return users;
     } catch (error) {
       Promise.reject(error)

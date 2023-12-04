@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
@@ -22,8 +23,6 @@ import {
   IImageProps,
   ImageFit,
   PrimaryButton,
-  IStyleSet,
-  IPivotStyles,
   Stack,
   IStackTokens,
 } from "@fluentui/react";
@@ -64,38 +63,43 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     sid: ChatService.context.pageContext.legacyPageContext.aadSessionId,
   };
 
-  const { result, error } = useMsalAuthentication(InteractionType.Silent, { ...request, redirectUri: "" });
+  const { result } = useMsalAuthentication(InteractionType.Silent, { ...request, redirectUri: "" });
 
   const _getUserChats = async (accessToken: string, activeAccount: any) => {
     let chatUserId: string = "";
-    let connectedUserId: string = activeAccount != null ? activeAccount.localAccountId : null;
+    // eslint-disable-next-line eqeqeq
+    const connectedUserId: string = activeAccount != null ? activeAccount.localAccountId : null;
     let lookForUserId: string = "";
     let lookForUserName: string = "";
     let foundIt: boolean = false;
-    let chatList: Chat[] = [];
+    const chatList: Chat[] = [];
 
     ChatService.getChats(accessToken, activeAccount).then((chatData) => {
       if (chatData) {
         console.log("chatData", chatData);
 
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         const users = state.users;
 
-        let n = users.PrimarySearchResults.length;
-        let o = chatData.length;
+        const n = users.PrimarySearchResults.length;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const o = chatData.length;
 
         for (let index = 0; index < n; index++) {
           lookForUserId = users.PrimarySearchResults[index].UniqueId;
           lookForUserName = users.PrimarySearchResults[index].Title;
           foundIt = false;
-          let o = chatData.length;
+          const o = chatData.length;
 
           for (let idx = 0; idx < o; idx++) {
             chatUserId = chatData[idx].id.substring(3, 39);
 
+            // eslint-disable-next-line eqeqeq
             if (chatUserId == connectedUserId) {
               chatUserId = chatData[idx].id.substring(40, 76);
             }
 
+            // eslint-disable-next-line eqeqeq
             if (lookForUserId == chatUserId) {
               const chatUrl = ChatService.fixUrl(chatData[idx].webUrl);
               const chat: Chat = { userId: lookForUserId, displayName: lookForUserName, chatUrl: chatUrl };
@@ -112,13 +116,15 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
             }
           }
 
-          if (foundIt == false) {
+          if (foundIt === false) {
             const chat: Chat = { userId: lookForUserId, displayName: lookForUserName, chatUrl: "" };
             chatList.push(chat);
           }
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         setstate({
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
           ...state,
           users: users,
         });
@@ -347,10 +353,6 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     });
   };
 
-  useEffect(() => {
-    _loadAlphabets();
-  }, []);
-
   //_searchUsers = _.debounce(_searchUsers, 500);
 
   useEffect(() => {
@@ -391,6 +393,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   }, [alphaKey]);
 
   useEffect(() => {
+    _loadAlphabets();
     _searchByAlphabets(true)
       .then((data) => {
         return data;
@@ -403,7 +406,6 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   useEffect(() => {
     if (state.searchFinished) {
       if (result) {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         _getUserChats(result.accessToken, activeAccount);
       }
     }
@@ -424,6 +426,17 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     height: 200,
     src: require("../../assets/HidingYeti.png"),
   };
+
+  // const piviotStyles: Partial<IStyleSet<IPivotStyles>> = {
+  //   link: {
+  //     backgroundColor: "#e3e1e1",
+  //     color: "#000",
+  //     fontSize: "17px",
+  //   },
+  //   linkIsSelected: {
+  //     fontSize: "17px",
+  //   },
+  // };
 
   return (
     <div className={styles.reactDirectory} lang={props.prefLang}>
@@ -447,23 +460,23 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
             <PrimaryButton onClick={_searchUsers}>{strings.SearchButtonLabel}</PrimaryButton>
           </Stack.Item>
         </Stack>
-      </div>
 
-      <div>
-        {
-          <Pivot
-            // styles={piviotStyles}
-            className={styles.alphabets}
-            linkFormat={PivotLinkFormat.tabs}
-            selectedKey={state.indexSelectedKey}
-            onLinkClick={_alphabetChange}
-            linkSize={PivotLinkSize.normal}
-          >
-            {az.map((index: string) => {
-              return <PivotItem headerText={index} itemKey={index} key={index} />;
-            })}
-          </Pivot>
-        }
+        <div>
+          {
+            <Pivot
+              // styles={piviotStyles}
+              className={styles.alphabets}
+              linkFormat={PivotLinkFormat.tabs}
+              selectedKey={state.indexSelectedKey}
+              onLinkClick={_alphabetChange}
+              linkSize={PivotLinkSize.normal}
+            >
+              {az.map((index: string) => {
+                return <PivotItem headerText={index} itemKey={index} key={index} />;
+              })}
+            </Pivot>
+          }
+        </div>
       </div>
       {state.isLoading ? (
         <div style={{ marginTop: "10px" }}>
