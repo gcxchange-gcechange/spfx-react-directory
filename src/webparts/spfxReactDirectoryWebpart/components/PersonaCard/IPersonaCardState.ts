@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IPersonaCardState {
-  livePersonaCard: any;
+  //livePersonaCard: any;
   pictureUrl: string;
 }
