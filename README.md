@@ -1,14 +1,35 @@
-# spfx-react-directory
+# People Search
 
 ## Summary
 
-Short summary on functionality and used technologies.
+- The webpart shows all the users in Entra ID.
+- Able to search users by their firstname or lastname or both.
+- Able to show the users whose firstname or lastname starts with selected letter. Alphabet letters are provided to select.
+- Pagination is implemented and able to choose the number of results per page in the Settings/Propertypane.
+- Able to change the language (English/French) in the property pane.
+- Able to hide any user by entering the user id in the Settings/Propertypane.
+- Able to send email and chat with any user.
 
-[picture of the solution in action, if possible]
+### Webpart:
 
-## Used SharePoint Framework Version
+![Webpart](./src/webparts/spfxReactDirectoryWebpart/assets/webpart.png)
 
-![version](https://img.shields.io/badge/version-1.16-green.svg)
+### Settings / Property Pane:
+
+![Property Pane](./src/webparts/spfxReactDirectoryWebpart/assets/propertypane.png)
+
+## Prerequisites
+
+None
+
+## API permission
+
+None
+
+## Version
+
+![SPFX](https://img.shields.io/badge/SPFX-1.17.4-green.svg)
+![Node.js](https://img.shields.io/badge/Node.js-v16.13+-green.svg)
 
 ## Applies to
 
@@ -17,57 +38,33 @@ Short summary on functionality and used technologies.
 
 > Get your own free development tenant by subscribing to [Microsoft 365 developer program](http://aka.ms/o365devprogram)
 
-## Prerequisites
-
-> Any special pre-requisites?
-
-## Solution
-
-| Solution    | Author(s)                                               |
-| ----------- | ------------------------------------------------------- |
-| folder name | Author details (name, company, twitter alias with link) |
-
 ## Version history
 
-| Version | Date             | Comments        |
-| ------- | ---------------- | --------------- |
-| 1.1     | March 10, 2021   | Update comment  |
-| 1.0     | January 29, 2021 | Initial release |
-
-## Disclaimer
-
-**THIS CODE IS PROVIDED _AS IS_ WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
-
----
+| Version | Date         | Comments                |
+| ------- | ------------ | ----------------------- |
+| 1.0     | Dec 29, 2022 | Initial release         |
+| 1.1     | Nov 21, 2023 | Upgraded to SPFX 1.17.4 |
 
 ## Minimal Path to Awesome
 
 - Clone this repository
 - Ensure that you are at the solution folder
-- in the command-line run:
+- To install the dependencies, in the command-line run:
   - **npm install**
-  - **gulp serve**
+- To debug in the front end:
+  - go to the `serve.json` file and update `initialPage` to :
+    - `https://your-domain-name.sharepoint.com/_layouts/15/workbench.aspx`
+  - In the command-line run:
+    - **gulp serve**
+- To deploy:
+  - In the command-line run:
+    - **gulp clean**
+    - **gulp bundle --ship**
+    - **gulp package-solution --ship**
+  - Add the webpart to your tenant app store
+- Add the Webpart to a page
+- Modify the property pane according to your requirements
 
-> Include any additional steps as needed.
+## Disclaimer
 
-## Features
-
-Description of the extension that expands upon high-level summary above.
-
-This extension illustrates the following concepts:
-
-- topic 1
-- topic 2
-- topic 3
-
-> Notice that better pictures and documentation will increase the sample usage and the value you are providing for others. Thanks for your submissions advance.
-
-> Share your web part with others through Microsoft 365 Patterns and Practices program to get visibility and exposure. More details on the community, open-source projects and other activities from http://aka.ms/m365pnp.
-
-## References
-
-- [Getting started with SharePoint Framework](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
-- [Building for Microsoft teams](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/build-for-teams-overview)
-- [Use Microsoft Graph in your solution](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/using-microsoft-graph-apis)
-- [Publish SharePoint Framework applications to the Marketplace](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/publish-to-marketplace-overview)
-- [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp) - Guidance, tooling, samples and open-source controls for your Microsoft 365 development
+**THIS CODE IS PROVIDED _AS IS_ WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**

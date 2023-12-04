@@ -1,4 +1,5 @@
-@import '~@fluentui/react/dist/sass/References.scss';
+@import "~office-ui-fabric-react/dist/sass/References.scss";
+@import "~@fluentui/react/dist/sass/References.scss";
 
 .reactDirectory {
   .dropDownSortBy {
@@ -85,8 +86,8 @@
     // Basic Button
     outline: transparent;
     position: relative;
-    font-family: "Segoe UI WestEuropean", "Segoe UI", -apple-system,
-      BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    font-family: "Segoe UI WestEuropean", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue",
+      sans-serif;
     -webkit-font-smoothing: antialiased;
     font-size: $ms-font-size-m;
     font-weight: $ms-font-weight-regular;
@@ -113,14 +114,25 @@
     white-space: normal;
     text-align: center;
 
-    button:hover{
+    button: {
+      margin-right: 2px !important;
+    }
+
+    button:hover {
       background-color: rgb(0, 120, 212);
       color: #fff;
+      font-weight: 600;
+    }
 
+    button[aria-selected="true"]:focus {
+      outline: 2px rgb(0, 120, 212) solid;
+      border: 2px rgb(238, 231, 231) solid;
+      background-color: rgb(0, 120, 212);
+      color: #fff;
+      font-weight: 600;
+      margin-right: 2px;
     }
   }
-
-
 
   .searchTextBox {
     min-width: 180px;
@@ -129,5 +141,4 @@
     margin-right: auto;
     margin-bottom: 25px;
   }
-
 }
