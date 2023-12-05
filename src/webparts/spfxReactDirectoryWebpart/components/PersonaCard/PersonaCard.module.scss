@@ -4,21 +4,19 @@
   display: inline-block;
   margin-top: 15px;
   margin-right: 15px;
-  min-width: 300px;
-  max-width: 300px;
+  min-width: 500px;
+  max-width: 500px;
   vertical-align: top;
 }
 .documentCard {
   border-color: $ms-color-themeDark;
   border-top-width: 5px;
   width: 100%;
-  max-width: 350px;
+  max-width: 500px;
   height: 120px;
 }
-.documentCard:focus{
+.documentCard:focus {
   box-shadow: 0 0 1px 2px $ms-color-themeDark;
-
-  
 }
 .persona {
   padding: 15px;
@@ -46,12 +44,10 @@
   min-height: 150px;
   box-shadow: 0 0 50px 10px #999;
   width: auto;
-    color: #222;
-    background-color: #ccc;
-
-
+  color: #222;
+  background-color: #ccc;
 }
-.popupPrimaryButton{
+.popupPrimaryButton {
   margin-top: 30px;
 }
 
@@ -59,7 +55,6 @@
   justify-content: center;
   text-align: center;
 }
-
 
 .customPopupDisplayName {
   overflow: hidden;
@@ -72,5 +67,4 @@
 }
 .customHoverCard:focus {
   box-shadow: 0 0 3px 5px $ms-color-themeDark;
-
 }
