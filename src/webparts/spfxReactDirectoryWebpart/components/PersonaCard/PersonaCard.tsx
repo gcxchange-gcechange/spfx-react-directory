@@ -116,7 +116,7 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
                       target="_blank"
                       rel="noreferrer"
                     >
-                      MS Teams Chat
+                      Chat on MS Teams
                     </a>
                   }
                 </span>
@@ -133,7 +133,7 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
                         CreateChat(this.props.profileProperties.Id);
                       }}
                     >
-                      Create MS Teams Chat
+                      Chat on MS Teams
                     </a>
                   }
                 </span>
