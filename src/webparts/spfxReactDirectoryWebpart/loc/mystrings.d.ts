@@ -1,5 +1,5 @@
 declare interface ISpfxReactDirectoryWebpartWebPartStrings {
-  userLang:string;
+  userLang: string;
   TitleFieldLabel: string;
   PropertyPaneDescription: string;
   BasicGroupName: string;
@@ -22,6 +22,7 @@ declare interface ISpfxReactDirectoryWebpartWebPartStrings {
   LoadingText: string;
   SearchBoxLabel: string;
   SendEmailLabel: string;
+  StartChatLabel: string;
   NoUserFoundLabelText: string;
   NoUserFoundImageAltText: string;
   NoUserFoundEmailSubject: string;
@@ -31,7 +32,7 @@ declare interface ISpfxReactDirectoryWebpartWebPartStrings {
   SearchButtonLabel: String;
 }
 
-declare module 'SpfxReactDirectoryWebpartWebPartStrings' {
+declare module "SpfxReactDirectoryWebpartWebPartStrings" {
   const strings: ISpfxReactDirectoryWebpartWebPartStrings;
   export = strings;
 }

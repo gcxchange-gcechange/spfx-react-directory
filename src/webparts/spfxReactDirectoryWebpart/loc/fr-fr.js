@@ -1,6 +1,6 @@
 define([], function () {
   return {
-    userLang:"fr-fr",
+    userLang: "fr-fr",
     SearchPlaceHolder: "Rechercher par nom de famille",
     PropertyPaneDescription: "Search People from Organization Directory",
     BasicGroupName: "Properties",
@@ -12,6 +12,7 @@ define([], function () {
     SearchBoxLabel: "Rechercher un(e) collègue (Nom de famille)",
     SearchButtonLabel: "Recherche",
     SendEmailLabel: "Envoyer un courriel",
+    StartChatLabel: "Clavardage sur MS Teams",
     NoUserFoundLabelText: "Inviter un collègue",
     NoUserFoundImageAltText: "Un yeti qui se cache",
     NoUserFoundEmail:
