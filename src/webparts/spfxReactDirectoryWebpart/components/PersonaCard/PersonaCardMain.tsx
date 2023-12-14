@@ -232,13 +232,9 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
                 Id: user.UniqueId,
                 DisplayName:
                   user.FirstName && user.LastName ? `${user.FirstName}   ${user.LastName}` : user.PreferredName,
-                Title: user.JobTitle,
                 PictureUrl: user.PictureURL,
                 Email: user.WorkEmail,
                 Chat: user.ChatURL,
-                Department: user.Department,
-                WorkPhone: user.WorkPhone,
-                Location: user.OfficeNumber ? user.OfficeNumber : user.BaseOfficeLocation,
               }}
             />
           );

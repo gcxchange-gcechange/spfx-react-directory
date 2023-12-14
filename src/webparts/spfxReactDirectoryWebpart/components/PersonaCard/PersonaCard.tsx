@@ -80,8 +80,6 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
         <div className={styles.persona}>
           <Persona
             text={this.props.profileProperties.DisplayName}
-            secondaryText={this.props.profileProperties.Title}
-            tertiaryText={this.props.profileProperties.Department}
             imageUrl={this.props.profileProperties.PictureUrl}
             size={PersonaSize.size48}
             imageShouldFadeIn={false}
@@ -140,22 +138,22 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
               </div>
             )}
 
-            {this.props.profileProperties.WorkPhone ? (
+            {/* {this.props.profileProperties.WorkPhone ? (
               <div>
                 <Icon iconName="Phone" style={{ fontSize: "12px" }} />
                 <span style={{ marginLeft: 5, fontSize: "12px" }}> {this.props.profileProperties.WorkPhone}</span>
               </div>
             ) : (
               ""
-            )}
-            {this.props.profileProperties.Location ? (
+            )} */}
+            {/* {this.props.profileProperties.Location ? (
               <div className={styles.textOverflow}>
                 <Icon iconName="Poi" style={{ fontSize: "12px" }} />
                 <span style={{ marginLeft: 5, fontSize: "12px" }}> {this.props.profileProperties.Location}</span>
               </div>
             ) : (
               ""
-            )}
+            )} */}
           </Persona>
         </div>
       </DocumentCard>
