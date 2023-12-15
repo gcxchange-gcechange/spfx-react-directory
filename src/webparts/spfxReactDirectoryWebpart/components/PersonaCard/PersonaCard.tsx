@@ -82,8 +82,8 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
             text={this.props.profileProperties.DisplayName}
             imageUrl={this.props.profileProperties.PictureUrl}
             size={PersonaSize.size48}
-            imageShouldFadeIn={false}
             imageShouldStartVisible={true}
+            imageAlt={"Profile Picture of " + this.props.profileProperties.DisplayName}
           >
             {this.props.profileProperties.Email ? (
               <div className={styles.textOverflow}>
