@@ -1,6 +1,6 @@
 define([], function () {
   return {
-    userLang:"en-us",
+    userLang: "en-us",
     SearchPlaceHolder: "Search by last name",
     PropertyPaneDescription: "Search People from Organization Directory",
     BasicGroupName: "Properties",
@@ -12,6 +12,7 @@ define([], function () {
     SearchBoxLabel: "Search for a colleague (Last Name)",
     SearchButtonLabel: "Search",
     SendEmailLabel: "Send Email",
+    StartChatLabel: "Chat on MS Teams",
     NoUserFoundLabelText: "Invite a colleague",
     NoUserFoundImageAltText: "A hiding yeti",
     NoUserFoundEmail:
