@@ -168,14 +168,18 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
 
     // pageno ? setPgNo(pageno) : setPgNo(0);
     const currentPge = pageno ? pageno : currentPage;
+    setCurrentPage(currentPge);
     const startItemIndex = (currentPge - 1) * pageSize;
-
     setStartItem(startItemIndex);
 
-    if (pgNo === 0) {
+    if (!pageno) {
       const filItems = state.users.PrimarySearchResults;
-      setCurrentPage(currentPge);
       setPagedItems(filItems);
+      setstate({
+        ...state,
+        isLoading: false,
+        searchFinished: true,
+      });
     }
   };
 
@@ -200,17 +204,17 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
         // AccessToken,
         // activeAccount
       );
-      setPagedItems(users.PrimarySearchResults);
+      // setPagedItems(users.PrimarySearchResults);
 
       setstate({
         ...state,
         searchText: state.searchText,
         indexSelectedKey: state.indexSelectedKey,
         users: users && users.PrimarySearchResults ? users : null,
-        isLoading: false,
+        // isLoading: false,
         errorMessage: "",
         hasError: false,
-        searchFinished: true,
+        // searchFinished: true,
       });
     }
   };
@@ -262,7 +266,6 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
         isLoading: true,
         searchFinished: false,
       });
-
       setalphaKey(item.props.itemKey);
       setCurrentPage(1);
       setStartItem(0);
@@ -284,10 +287,10 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
       searchText: "",
       indexSelectedKey: initialSearch ? "A" : state.indexSelectedKey,
       users: users && users.PrimarySearchResults ? users : null,
-      isLoading: false,
+      //isLoading: false,
       errorMessage: "",
       hasError: false,
-      searchFinished: true,
+      //searchFinished: true,
     });
   };
 
@@ -328,10 +331,10 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
           searchText: searchText,
           indexSelectedKey: null,
           users: users && users.PrimarySearchResults ? users : null,
-          isLoading: false,
+          // isLoading: false,
           errorMessage: "",
           hasError: false,
-          searchFinished: true,
+          // searchFinished: true,
         });
       } else {
         setstate({ ...state, searchText: "" });
@@ -354,7 +357,20 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   };
 
   //_searchUsers = _.debounce(_searchUsers, 500);
-
+  useEffect(() => {
+    _loadAlphabets();
+  }, []);
+  useEffect(() => {
+    if (alphaKey.length > 0 && alphaKey !== "0") {
+      _searchByAlphabets(false)
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => {
+          /* perform error handling if desired */
+        });
+    }
+  }, [alphaKey]);
   useEffect(() => {
     setPageSize(props.pageSize);
     if (state.users.PrimarySearchResults) {
@@ -381,19 +397,8 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   }, [pgNo]);
 
   useEffect(() => {
-    if (alphaKey.length > 0 && alphaKey !== "0") {
-      _searchByAlphabets(false)
-        .then((data) => {
-          return data;
-        })
-        .catch((err) => {
-          /* perform error handling if desired */
-        });
-    }
-  }, [alphaKey]);
+    //_loadAlphabets();
 
-  useEffect(() => {
-    _loadAlphabets();
     _searchByAlphabets(true)
       .then((data) => {
         return data;
