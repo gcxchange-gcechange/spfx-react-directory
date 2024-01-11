@@ -304,7 +304,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
       setalphaKey("");
       const searchText = state.searchText;
       if (searchText.length > 0) {
-        const searchProps: string[] = ["FirstName", "LastName"];
+        const searchProps: string[] = ["FirstName", "LastName", "PreferredName"];
 
         let qryText: string = "";
         const finalSearchText: string = searchText ? searchText.replace(/ /g, "+") : searchText;
