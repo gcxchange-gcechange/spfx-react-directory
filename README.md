@@ -20,11 +20,22 @@
 
 ## Prerequisites
 
-None
+This web part connects to [this function app](https://github.com/gcxchange-gcechange/appsvc-fnc-createchat-dotnet001).
 
 ## API permission
 
-None
+MSGraph
+
+| API / Permissions name    | Type        | Admin consent | Justification                       |
+| ------------------------- | ----------- | ------------- | ----------------------------------- |
+| Chat.Read | Delegated | Yes | Read user chat messages |
+| User.Read | Delegated | Yes | Sign in and read user profile |
+
+Custom
+
+| API / Permissions name    | Type        | Admin consent | Justification                       |
+| ------------------------- | ----------- | ------------- | ----------------------------------- |
+| access_graph_on_behalf_of_user | Delegated | Yes | Access Microsoft Graph as the signed-in user |
 
 ## Version
 
