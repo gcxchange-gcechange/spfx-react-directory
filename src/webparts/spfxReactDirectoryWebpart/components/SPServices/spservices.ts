@@ -80,7 +80,7 @@ export class spservices implements ISPServices {
         EnableInterleaving: true,
         SelectProperties: searchProperties,
         SourceId: "b09a7990-05ea-4af9-81ef-edfab16c4e31",
-        SortList: [{ Property: "FirstName", Direction: SortDirection.Ascending }],
+        SortList: [{ Property: "LastName", Direction: SortDirection.Ascending }],
       });
 
       let n = users.PrimarySearchResults.length;
