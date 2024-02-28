@@ -158,21 +158,17 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [startItem, setStartItem] = useState<number>(0);
   const [pgNo, setPgNo] = useState<number>(0);
+  const [miniHeight, setMiniHeight] = useState<string>("300px");
+
 
   const _onPageUpdate = async (pageno?: number) => {
     if (pageno) {
       setPgNo(pageno);
+      const currentPge = pageno;
+      setCurrentPage(currentPge);
+      const startItemIndex = (currentPge - 1) * pageSize;
+      setStartItem(startItemIndex);   
     } else {
-      setPgNo(0);
-    }
-
-    // pageno ? setPgNo(pageno) : setPgNo(0);
-    const currentPge = pageno ? pageno : currentPage;
-    setCurrentPage(currentPge);
-    const startItemIndex = (currentPge - 1) * pageSize;
-    setStartItem(startItemIndex);
-
-    if (!pageno) {
       const filItems = state.users.PrimarySearchResults;
       setPagedItems(filItems);
       setstate({
@@ -180,6 +176,39 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
         isLoading: false,
         searchFinished: true,
       });
+      setPgNo(0);
+    } 
+    switch (props.pageSize) {
+      case 2:
+        setMiniHeight("250px");
+        break;
+      case 4:
+        setMiniHeight("300px");
+        break;
+      case 6:
+        setMiniHeight("350px");
+        break;
+      case 8:
+        setMiniHeight("400px");
+        break;
+      case 10:
+        setMiniHeight("450px");
+        break;
+      case 12:
+        setMiniHeight("500px");
+        break;
+      case 14:
+        setMiniHeight("550px");
+        break;
+      case 16:
+        setMiniHeight("600px");
+        break;
+      case 18:
+        setMiniHeight("650px");
+        break;
+      case 20:
+        setMiniHeight("700px");
+        break;
     }
   };
 
@@ -218,7 +247,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
       });
     }
   };
-
+  const webpartHeight={minHeight:miniHeight}
   const diretoryGrid =
     pagedItems && pagedItems.length > 0
       ? pagedItems.map((user: any, index: number) => {
@@ -277,7 +306,9 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     setstate({ ...state, isLoading: true, searchText: "" });
     let users = null;
     if (initialSearch) {
-      users = await _services.searchUsersNew(props.context, "a", "", true, hidingUsers, startItem, pageSize);
+      users = await _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers, 0, props.pageSize);
+      setCurrentPage(1);
+      setPageSize(props.pageSize);
     } else {
       users = await _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers, startItem, pageSize);
     }
@@ -285,7 +316,6 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     setstate({
       ...state,
       searchText: "",
-      indexSelectedKey: initialSearch ? "A" : state.indexSelectedKey,
       users: users && users.PrimarySearchResults ? users : null,
       //isLoading: false,
       errorMessage: "",
@@ -372,7 +402,6 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     }
   }, [alphaKey]);
   useEffect(() => {
-    setPageSize(props.pageSize);
     if (state.users.PrimarySearchResults) {
       _onPageUpdate()
         .then((data) => {
@@ -444,7 +473,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   // };
 
   return (
-    <div className={styles.reactDirectory} lang={props.prefLang}>
+    <div className={styles.reactDirectory} lang={props.prefLang} style={ webpartHeight }>
       <div className={styles.searchBox}>
         <Stack horizontal tokens={itemAlignmentsStackTokens}>
           <Stack.Item order={1} styles={stackItemStyles}>
@@ -474,8 +503,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
               linkFormat={PivotLinkFormat.tabs}
               selectedKey={state.indexSelectedKey}
               onLinkClick={_alphabetChange}
-              linkSize={PivotLinkSize.normal}
-            >
+              linkSize={PivotLinkSize.normal}>
               {az.map((index: string) => {
                 return <PivotItem headerText={index} itemKey={index} key={index} />;
               })}
