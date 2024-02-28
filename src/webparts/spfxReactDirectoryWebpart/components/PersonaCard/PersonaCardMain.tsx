@@ -162,17 +162,11 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   const _onPageUpdate = async (pageno?: number) => {
     if (pageno) {
       setPgNo(pageno);
+      const currentPge = pageno;
+      setCurrentPage(currentPge);
+      const startItemIndex = (currentPge - 1) * pageSize;
+      setStartItem(startItemIndex);   
     } else {
-      setPgNo(0);
-    }
-
-    // pageno ? setPgNo(pageno) : setPgNo(0);
-    const currentPge = pageno ? pageno : currentPage;
-    setCurrentPage(currentPge);
-    const startItemIndex = (currentPge - 1) * pageSize;
-    setStartItem(startItemIndex);
-
-    if (!pageno) {
       const filItems = state.users.PrimarySearchResults;
       setPagedItems(filItems);
       setstate({
@@ -180,7 +174,8 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
         isLoading: false,
         searchFinished: true,
       });
-    }
+      setPgNo(0);
+    }     
   };
 
   const _getCurrentPageUsers = async () => {
@@ -277,7 +272,9 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     setstate({ ...state, isLoading: true, searchText: "" });
     let users = null;
     if (initialSearch) {
-      users = await _services.searchUsersNew(props.context, "a", "", true, hidingUsers, startItem, pageSize);
+      users = await _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers, 0, props.pageSize);
+      setCurrentPage(1);
+      setPageSize(props.pageSize);
     } else {
       users = await _services.searchUsersNew(props.context, `${alphaKey}`, "", true, hidingUsers, startItem, pageSize);
     }
@@ -285,7 +282,6 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     setstate({
       ...state,
       searchText: "",
-      indexSelectedKey: initialSearch ? "A" : state.indexSelectedKey,
       users: users && users.PrimarySearchResults ? users : null,
       //isLoading: false,
       errorMessage: "",
@@ -372,7 +368,6 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
     }
   }, [alphaKey]);
   useEffect(() => {
-    setPageSize(props.pageSize);
     if (state.users.PrimarySearchResults) {
       _onPageUpdate()
         .then((data) => {
