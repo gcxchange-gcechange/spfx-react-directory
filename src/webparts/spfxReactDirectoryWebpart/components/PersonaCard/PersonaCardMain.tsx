@@ -158,6 +158,8 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [startItem, setStartItem] = useState<number>(0);
   const [pgNo, setPgNo] = useState<number>(0);
+  const [miniHeight, setMiniHeight] = useState<string>("300px");
+
 
   const _onPageUpdate = async (pageno?: number) => {
     if (pageno) {
@@ -175,7 +177,39 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
         searchFinished: true,
       });
       setPgNo(0);
-    }     
+    } 
+    switch (props.pageSize) {
+      case 2:
+        setMiniHeight("250px");
+        break;
+      case 4:
+        setMiniHeight("300px");
+        break;
+      case 6:
+        setMiniHeight("350px");
+        break;
+      case 8:
+        setMiniHeight("400px");
+        break;
+      case 10:
+        setMiniHeight("450px");
+        break;
+      case 12:
+        setMiniHeight("500px");
+        break;
+      case 14:
+        setMiniHeight("550px");
+        break;
+      case 16:
+        setMiniHeight("600px");
+        break;
+      case 18:
+        setMiniHeight("650px");
+        break;
+      case 20:
+        setMiniHeight("700px");
+        break;
+    }
   };
 
   const _getCurrentPageUsers = async () => {
@@ -213,7 +247,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
       });
     }
   };
-
+  const webpartHeight={minHeight:miniHeight}
   const diretoryGrid =
     pagedItems && pagedItems.length > 0
       ? pagedItems.map((user: any, index: number) => {
@@ -439,7 +473,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   // };
 
   return (
-    <div className={styles.reactDirectory} lang={props.prefLang} style={{minHeight:"300px"}}>
+    <div className={styles.reactDirectory} lang={props.prefLang} style={ webpartHeight }>
       <div className={styles.searchBox}>
         <Stack horizontal tokens={itemAlignmentsStackTokens}>
           <Stack.Item order={1} styles={stackItemStyles}>
@@ -469,8 +503,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
               linkFormat={PivotLinkFormat.tabs}
               selectedKey={state.indexSelectedKey}
               onLinkClick={_alphabetChange}
-              linkSize={PivotLinkSize.normal}
-            >
+              linkSize={PivotLinkSize.normal}>
               {az.map((index: string) => {
                 return <PivotItem headerText={index} itemKey={index} key={index} />;
               })}
