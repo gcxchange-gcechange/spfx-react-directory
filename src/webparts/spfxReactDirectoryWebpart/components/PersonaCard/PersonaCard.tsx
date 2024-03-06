@@ -7,26 +7,21 @@ import * as React from "react";
 import styles from "./PersonaCard.module.scss";
 import { IPersonaCardProps } from "./IPersonaCardProps";
 import { IPersonaCardState } from "./IPersonaCardState";
-import { Log, Environment, EnvironmentType } from "@microsoft/sp-core-library";
-import { SPComponentLoader } from "@microsoft/sp-loader";
-
 import { Persona, PersonaSize, DocumentCard, DocumentCardType, Icon, FocusZone } from "office-ui-fabric-react";
 import { SelectLanguage } from "../SelectLanguage";
 import { callApiWithToken } from "../../../../fetch";
 import { msalConfig, protectedResources } from "../../../../authConfig";
 import { getClaimsFromStorage } from "../../../../utils/storageUtils";
 import ChatService from "../SPServices/ChatService";
-
-const EXP_SOURCE: string = "SPFxDirectory";
-const LIVE_PERSONA_COMPONENT_ID: string = "914330ee-2df2-4f6e-a858-30c23a812408"; //component Id of the Live Persona Card module
+import { Spinner, SpinnerSize } from "@fluentui/react/lib/Spinner";
 
 export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCardState> {
   constructor(props: IPersonaCardProps) {
     super(props);
-    this.state = { pictureUrl: undefined };
+    this.state = { pictureUrl: undefined, isLoading: false };
   }
 
-  /**
+   /**
    *
    *
    * @private
@@ -36,43 +31,55 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
   private _PersonaCard(): JSX.Element {
     const strings = SelectLanguage(this.props.prefLang);
 
-    const CreateChat = (userId: string) => {
-      console.log("CreateChat userId", userId);
+    const CreateChat =  async (userId: string) => {
+      this.setState({ isLoading: true }, () => {
 
-      const activeAccount: any = this.props.activeAccount;
-      const instance = this.props.instance;
-      const resource = new URL(protectedResources.apiChat.endpoint).hostname;
-      const request = {
-        scopes: protectedResources.scopes.chatCreate,
-        account: activeAccount,
-        claims:
-          activeAccount &&
-          getClaimsFromStorage(`cc.${msalConfig.auth.clientId}.${activeAccount.idTokenClaims.oid}.${resource}`)
-            ? window.atob(
-                getClaimsFromStorage(`cc.${msalConfig.auth.clientId}.${activeAccount.idTokenClaims.oid}.${resource}`)
-              )
-            : undefined,
-        sid: ChatService.context.pageContext.legacyPageContext.aadSessionId,
-      };
+        console.log("CreateChat userId", userId);
 
-      //let accessToken: string = "";
-      instance
-        .acquireTokenSilent(request)
-        .then((response: { accessToken: any }) => {
-          const accessToken = response.accessToken;
-          callApiWithToken(accessToken, protectedResources.apiChat.endpoint, activeAccount, userId)
-            .then((response) => {
-              this.props.profileProperties.Chat = ChatService.fixUrl(response);
-              this.componentDidMount();
-            })
+        let createChatUrl: string = "";
 
-            .catch((error) => {
+        const activeAccount: any = this.props.activeAccount;
+        const instance = this.props.instance;
+        const resource = new URL(protectedResources.apiChat.endpoint).hostname;
+        const request = {
+          scopes: protectedResources.scopes.chatCreate,
+          account: activeAccount,
+          claims:
+            activeAccount &&
+            getClaimsFromStorage(`cc.${msalConfig.auth.clientId}.${activeAccount.idTokenClaims.oid}.${resource}`)
+              ? window.atob(
+                  getClaimsFromStorage(`cc.${msalConfig.auth.clientId}.${activeAccount.idTokenClaims.oid}.${resource}`)
+                )
+              : undefined,
+          sid: ChatService.context.pageContext.legacyPageContext.aadSessionId,
+        };
+  
+        instance.acquireTokenSilent(request).then((response: { accessToken: any }) => {
+            const accessToken = response.accessToken;
+            callApiWithToken(accessToken, protectedResources.apiChat.endpoint, activeAccount, userId).then((response) => {
+              createChatUrl = ChatService.fixUrl(response);
+              console.log("createChatUrl", createChatUrl);
+              this.props.profileProperties.Chat = createChatUrl;
+
+              const anchor = document.getElementById(`a_${this.props.profileProperties.Id}`);
+              (anchor as HTMLAnchorElement).href = createChatUrl;
+
+              this.setState({ isLoading: false });
+   
+              if (createChatUrl !== "") {
+                //window.location.href = createChatUrl;
+                window.open(createChatUrl, '_blank');
+              }
+            }).catch((error) => {
               console.log("callApiWithToken error", error);
-            });
+              this.setState({ isLoading: false });
+            });          
         })
         .catch((error: any) => {
           console.log("acquireTokenSilent error", error);
+          this.setState({ isLoading: false });
         });
+      });
     };
 
     return (
@@ -129,6 +136,7 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
                     <a
                       aria-label={`create chat`}
                       href="#"
+                      id={`a_${this.props.profileProperties.Id}`}
                       onClick={() => {
                         CreateChat(this.props.profileProperties.Id);
                       }}
@@ -158,6 +166,8 @@ export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCard
             )}
           </Persona>
         </div>
+
+        { this.state.isLoading  && (<Spinner size={SpinnerSize.large} /> ) }
       </DocumentCard>
     );
   }
