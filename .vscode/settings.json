@@ -7,14 +7,15 @@
     "**/bower_components": true,
     "**/coverage": true,
     "**/lib-amd": true,
-    "src/**/*.scss.ts": true
+    "src/**/*.scss.ts": true,
+      "**/jest-output": true
   },
   "typescript.tsdk": ".\\node_modules\\typescript\\lib",
 
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "prettier.printWidth": 120,
   "window.zoomLevel": 0
