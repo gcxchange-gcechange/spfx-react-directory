@@ -39,8 +39,8 @@ Custom
 
 ## Version
 
-![SPFX](https://img.shields.io/badge/SPFX-1.17.4-green.svg)
-![Node.js](https://img.shields.io/badge/Node.js-v16.13+-green.svg)
+![SPFX](https://img.shields.io/badge/SPFX-1.21.1-green.svg)
+![Node.js](https://img.shields.io/badge/Node.js-v22+-green.svg)
 
 ## Applies to
 
