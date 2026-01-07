@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as MicrosoftGraph from "@microsoft/microsoft-graph-types";
 import { callApiWithToken } from "../../../../fetch";
 import { WebPartContext } from "@microsoft/sp-webpart-base";

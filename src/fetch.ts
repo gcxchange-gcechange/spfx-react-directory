@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { msalConfig } from './authConfig';
 import { addClaimsToStorage } from './utils/storageUtils';
 import { parseChallenges } from './utils/claimUtils';
