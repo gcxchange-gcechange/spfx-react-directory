@@ -4,7 +4,7 @@ import { callApiWithToken } from "../../../../fetch";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 export class ChatServiceManager {
-    public context: WebPartContext;
+    public context!: WebPartContext;
 
     public setup(context: WebPartContext): void {
       this.context = context;

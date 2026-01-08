@@ -25,10 +25,10 @@ export const parseChallenges = (header: string):any => {
  * @param {Number} index
  * @param {Object} claimsObject
  */
-const populateClaim = (claim: string, value: string, description: string, index: number, claimsObject: { [x: string]: any[]; }):void => {
+const populateClaim = (claim: string, value: string | number, description: string, index: number, claimsObject: { [x: string]: any[]; }):void => {
     const claimsArray = [];
     claimsArray[0] = claim;
-    claimsArray[1] = value;
+    claimsArray[1] = String(value);
     claimsArray[2] = description;
     claimsObject[index] = claimsArray;
 };
@@ -76,7 +76,7 @@ export const createClaimsTable = (claims: { [x: string]: any; }):any => {
             case 'iat':
                 populateClaim(
                     key,
-                    changeDateFormat(claims[key]),
+                    changeDateFormat(claims[key] as number),
                     'Issued At indicates when the authentication for this token occurred.',
                     index,
                     claimsObj
@@ -86,7 +86,7 @@ export const createClaimsTable = (claims: { [x: string]: any; }):any => {
             case 'nbf':
                 populateClaim(
                     key,
-                    changeDateFormat(claims[key]),
+                    changeDateFormat(claims[key] as number),
                     'The nbf (not before) claim identifies the time (as UNIX timestamp) before which the JWT must not be accepted for processing.',
                     index,
                     claimsObj
@@ -96,7 +96,7 @@ export const createClaimsTable = (claims: { [x: string]: any; }):any => {
             case 'exp':
                 populateClaim(
                     key,
-                    changeDateFormat(claims[key]),
+                    changeDateFormat(claims[key] as number),
                     "The exp (expiration time) claim identifies the expiration time (as UNIX timestamp) on or after which the JWT must not be accepted for processing. It's important to note that in certain circumstances, a resource may reject the token before this time. For example, if a change in authentication is required or a token revocation has been detected.",
                     index,
                     claimsObj

@@ -2,12 +2,12 @@
   "@microsoft/generator-sharepoint": {
     "plusBeta": false,
     "isCreatingSolution": true,
-    "nodeVersion": "16.15.1",
+    "nodeVersion": "22.19.0",
     "sdksVersions": {
       "@microsoft/microsoft-graph-client": "3.0.2",
-      "@microsoft/teams-js": "2.4.1"
+      "@microsoft/teams-js": "2.24.0"
     },
-    "version": "1.16.0",
+    "version": "1.22.1",
     "libraryName": "spfx-react-directory",
     "libraryId": "b51b86e4-4e85-4644-80d4-27be55eca8f0",
     "environment": "spo",
@@ -16,7 +16,8 @@
     "solutionShortDescription": "spfx-react-directory description",
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
-    "componentType": "webpart"
+    "componentType": "webpart",
+    "useGulp": false
   }
 }
 

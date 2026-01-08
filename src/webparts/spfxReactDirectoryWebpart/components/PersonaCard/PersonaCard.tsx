@@ -18,7 +18,7 @@ import { Spinner, SpinnerSize } from "@fluentui/react/lib/Spinner";
 export class PersonaCard extends React.Component<IPersonaCardProps, IPersonaCardState> {
   constructor(props: IPersonaCardProps) {
     super(props);
-    this.state = { pictureUrl: undefined, isLoading: false };
+    this.state = { pictureUrl: "", isLoading: false };
   }
 
    /**

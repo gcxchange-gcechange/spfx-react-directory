@@ -92,16 +92,17 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
           const o = chatData.length;
 
           for (let idx = 0; idx < o; idx++) {
-            chatUserId = chatData[idx].id.substring(3, 39);
+            if (!chatData[idx] || !chatData[idx].id) continue;
+            chatUserId = chatData[idx]?.id?.substring(3, 39) ?? "";
 
             // eslint-disable-next-line eqeqeq
             if (chatUserId == connectedUserId) {
-              chatUserId = chatData[idx].id.substring(40, 76);
+              chatUserId = chatData[idx]?.id?.substring(40, 76) ?? "";
             }
 
             // eslint-disable-next-line eqeqeq
             if (lookForUserId == chatUserId) {
-              const chatUrl = ChatService.fixUrl(chatData[idx].webUrl);
+              const chatUrl = ChatService.fixUrl(chatData[idx]?.webUrl ?? "");
               const chat: Chat = { userId: lookForUserId, displayName: lookForUserName, chatUrl: chatUrl };
 
               chatList.push(chat);
@@ -135,8 +136,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   };
 
   const strings: ISpfxReactDirectoryWebpartWebPartStrings = SelectLanguage(props.prefLang);
-  let _services: ISPServices = null;
-  _services = new spservices(props.context);
+  const _services: ISPServices = new spservices(props.context);
 
   const [az, setaz] = useState<string[]>([]);
   const [alphaKey, setalphaKey] = useState<string>("A");
@@ -258,7 +258,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
   };
 
   const _alphabetChange = async (item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) => {
-    if (alphaKey !== item.props.itemKey) {
+    if (item && item.props.itemKey && alphaKey !== item.props.itemKey) {
       setstate({
         ...state,
         searchText: "",
@@ -329,7 +329,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
         setstate({
           ...state,
           searchText: searchText,
-          indexSelectedKey: null,
+          indexSelectedKey: "",
           users: users && users.PrimarySearchResults ? users : null,
           // isLoading: false,
           errorMessage: "",
@@ -341,7 +341,8 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
         await _searchByAlphabets(true);
       }
     } catch (err) {
-      setstate({ ...state, errorMessage: err.message, hasError: true });
+      const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
+      setstate({ ...state, errorMessage: errorMessage, hasError: true });
     }
   };
 

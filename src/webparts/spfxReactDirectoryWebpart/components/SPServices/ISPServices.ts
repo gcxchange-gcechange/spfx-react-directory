@@ -10,5 +10,5 @@ export interface ISPServices {
     endItem: number,
     //accessToken: any,
     //activeAccount: any
-  );
+  ): Promise<any>;
 }

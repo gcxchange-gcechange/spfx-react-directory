@@ -1,8 +1,7 @@
 import * as strings from "SpfxReactDirectoryWebpartWebPartStrings";
 
-import * as english from "../loc/en-us.js";
-
-import * as french from "../loc/fr-fr.js";
+const english: ISpfxReactDirectoryWebpartWebPartStrings = strings;
+const french: ISpfxReactDirectoryWebpartWebPartStrings = strings;
 
 export function SelectLanguage(lang: string): ISpfxReactDirectoryWebpartWebPartStrings {
   switch (lang) {
