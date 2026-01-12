@@ -39,8 +39,8 @@ Custom
 
 ## Version
 
-![SPFX](https://img.shields.io/badge/SPFX-1.17.4-green.svg)
-![Node.js](https://img.shields.io/badge/Node.js-v16.13+-green.svg)
+![SPFX](https://img.shields.io/badge/SPFX-1.22.1-green.svg)
+![Node.js](https://img.shields.io/badge/Node.js-v22.14.0+-green.svg)
 
 ## Applies to
 
@@ -55,6 +55,7 @@ Custom
 | ------- | ------------ | ----------------------- |
 | 1.0     | Dec 29, 2022 | Initial release         |
 | 1.1     | Nov 21, 2023 | Upgraded to SPFX 1.17.4 |
+| 1.2     | Jan 05, 2026 | Upgraded to SPFX 1.22.1 |
 
 ## Minimal Path to Awesome
 
@@ -66,13 +67,13 @@ Custom
   - go to the `serve.json` file and update `initialPage` to :
     - `https://your-domain-name.sharepoint.com/_layouts/15/workbench.aspx`
   - In the command-line run:
-    - **gulp serve**
+    - **heft start**
 - To deploy:
   - In the command-line run:
-    - **gulp clean**
-    - **gulp bundle --ship**
-    - **gulp package-solution --ship**
-  - Add the webpart to your tenant app store
+    - **heft clean**
+    - **heft build --production**
+    - **heft package-solution --production**
+- Add the webpart to your tenant app store
 - Add the Webpart to a page
 - Modify the property pane according to your requirements
 
