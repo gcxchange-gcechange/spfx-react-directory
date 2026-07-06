@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { IUserProperties } from "./IUserProperties";
 

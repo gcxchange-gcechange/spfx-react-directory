@@ -1,25 +1,12 @@
-// import { WebPartContext } from "@microsoft/sp-webpart-base";
-// //import { sp, SearchQuery, SearchResults, SortDirection } from "@pnp/sp";
-// import { SearchResults, ISearchQuery, SortDirection } from "@pnp/sp/search";
 
-// import { ISPServices } from "./ISPServices";
-// import { useMsal, useMsalAuthentication } from "@azure/msal-react";
-// import ChatService from "./ChatService";
-// import { getClaimsFromStorage } from "../../../../utils/storageUtils";
-// import { msalConfig, protectedResources } from "../../../../authConfig";
-// import { InteractionType } from '@azure/msal-browser';
-// import * as React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { sp } from "@pnp/sp";
 import { SearchResults, ISearchQuery, SortDirection } from "@pnp/sp/search";
 import { ISPServices } from "./ISPServices";
 
 export class spservices implements ISPServices {
-  // constructor(private context: WebPartContext) {
-  //   sp.setup({
-  //     spfxContext: this.context,
-  //   });
-  // }
+
   constructor(private context: WebPartContext) {
     sp.setup({
       spfxContext: {
@@ -96,18 +83,20 @@ export class spservices implements ISPServices {
         }
 
         const client = await context.msGraphClientFactory.getClient();
-        const body = { requests: [] };
+        const body = { requests: [] as {id: string; method: string; url: string;}[] };
         users.PrimarySearchResults.forEach((user) => {
-          const requestUrl: string = `/users/${user.UniqueId}/photo/$value`;
-          body.requests.push({
-            id: user.UniqueId.toString(),
-            method: "GET",
-            url: requestUrl,
-          });
+          if (user.UniqueId) {
+            const requestUrl: string = `/users/${user.UniqueId}/photo/$value`;
+            body.requests.push({
+              id: user.UniqueId.toString(),
+              method: "GET",
+              url: requestUrl,
+            });
+          }
         });
         const response = await client.api("$batch").version("v1.0").post(body);
 
-        response.responses.forEach((r) => {
+        response.responses.forEach((r: any) => {
           if (r.status === 200) {
             users.PrimarySearchResults.map((u, index) => {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -140,13 +129,7 @@ export class spservices implements ISPServices {
 
       return users;
     } catch (error) {
-      Promise.reject(error)
-        .then((data) => {
-          return data;
-        })
-        .catch((err) => {
-          /* perform error handling if desired */
-        });
+      return Promise.reject(error);
     }
   }
 }

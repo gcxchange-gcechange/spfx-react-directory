@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import { IReactDirectoryProps } from "./IReactDirectoryProps";
 import PersonaCardMain from "./PersonaCard/PersonaCardMain";

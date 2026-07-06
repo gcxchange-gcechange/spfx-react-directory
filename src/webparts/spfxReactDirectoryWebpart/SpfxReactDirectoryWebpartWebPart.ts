@@ -26,7 +26,7 @@ export interface ISpfxReactDirectoryWebpartWebPartProps {
 export default class SpfxReactDirectoryWebpartWebPart extends BaseClientSideWebPart<ISpfxReactDirectoryWebpartWebPartProps> {
   private _isDarkTheme: boolean = false;
   private _environmentMessage: string = "";
-  private strings: ISpfxReactDirectoryWebpartWebPartStrings;
+  private strings!: ISpfxReactDirectoryWebpartWebPartStrings;
 
   public render(): void {
     const element: React.ReactElement<IReactDirectoryProps> = React.createElement(DirectoryHook, {

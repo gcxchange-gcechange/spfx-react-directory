@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { msalConfig } from './authConfig';
 import { addClaimsToStorage } from './utils/storageUtils';
 import { parseChallenges } from './utils/claimUtils';
@@ -18,8 +18,8 @@ export const handleClaimsChallenge = async (response: Response, apiEndpoint: str
     if (response.status === 200) {
         return response.json();
     } else if (response.status === 401) {   // Unauthorized
-        if (response.headers.get('WWW-Authenticate')) {
-            const authenticateHeader = response.headers.get('WWW-Authenticate');
+        const authenticateHeader = response.headers.get('WWW-Authenticate');
+        if (authenticateHeader) {
             const claimsChallenge = parseChallenges(authenticateHeader);
 
             /**
