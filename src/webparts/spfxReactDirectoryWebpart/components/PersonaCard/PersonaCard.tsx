@@ -7,7 +7,7 @@ import * as React from "react";
 import styles from "./PersonaCard.module.scss";
 import { IPersonaCardProps } from "./IPersonaCardProps";
 import { IPersonaCardState } from "./IPersonaCardState";
-import { Persona, PersonaSize, DocumentCard, DocumentCardType, Icon, FocusZone } from "office-ui-fabric-react";
+import { Persona, PersonaSize, DocumentCard, DocumentCardType, Icon, FocusZone } from "@fluentui/react";
 import { SelectLanguage } from "../SelectLanguage";
 import { callApiWithToken } from "../../../../fetch";
 import { msalConfig, protectedResources } from "../../../../authConfig";
