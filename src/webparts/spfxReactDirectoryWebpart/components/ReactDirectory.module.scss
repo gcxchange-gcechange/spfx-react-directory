@@ -1,4 +1,4 @@
-@import "~office-ui-fabric-react/dist/sass/References.scss";
+// @import "~office-ui-fabric-react/dist/sass/References.scss";
 @import "~@fluentui/react/dist/sass/References.scss";
 
 .reactDirectory {
@@ -42,35 +42,38 @@
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
   }
 
+  // .row {
+  //   @include ms-Grid-row;
+  //   @include ms-fontColor-white;
+   
+  // }
   .row {
-    @include ms-Grid-row;
-    @include ms-fontColor-white;
     background-color: $ms-color-themeDark;
     padding: 20px;
   }
 
-  .column {
-    @include ms-Grid-col;
-    @include ms-lg10;
-    @include ms-xl8;
-    @include ms-xlPush2;
-    @include ms-lgPush1;
-  }
+  // .column {
+  //   @include ms-Grid-col;
+  //   @include ms-lg10;
+  //   @include ms-xl8;
+  //   @include ms-xlPush2;
+  //   @include ms-lgPush1;
+  // }
 
-  .title {
-    @include ms-font-xl;
-    @include ms-fontColor-white;
-  }
+  // .title {
+  //   @include ms-font-xl;
+  //   @include ms-fontColor-white;
+  // }
 
-  .subTitle {
-    @include ms-font-l;
-    @include ms-fontColor-white;
-  }
+  // .subTitle {
+  //   @include ms-font-l;
+  //   @include ms-fontColor-white;
+  // }
 
-  .description {
-    @include ms-font-l;
-    @include ms-fontColor-white;
-  }
+  // .description {
+  //   @include ms-font-l;
+  //   @include ms-fontColor-white;
+  // }
 
   .button {
     // Our button
@@ -97,15 +100,25 @@
     display: inline-block;
     padding: 0 16px;
 
-    .label {
-      font-weight: $ms-font-weight-semibold;
-      font-size: $ms-font-size-m;
-      height: 32px;
-      line-height: 32px;
-      margin: 0 4px;
-      vertical-align: top;
-      display: inline-block;
-    }
+    // .label {
+    //   font-weight: $ms-font-weight-semibold;
+    //   font-size: $ms-font-size-m;
+    //   height: 32px;
+    //   line-height: 32px;
+    //   margin: 0 4px;
+    //   vertical-align: top;
+    //   display: inline-block;
+    // }
+  }
+  
+  .button .label {
+    font-weight: $ms-font-weight-semibold;
+    font-size: $ms-font-size-m;
+    height: 32px;
+    line-height: 32px;
+    margin: 0 4px;
+    vertical-align: top;
+    display: inline-block;
   }
 
   .alphabets {
@@ -114,24 +127,42 @@
     white-space: normal;
     text-align: center;
 
-    button: {
-      margin-right: 2px !important;
-    }
+    // button: {
+    //   margin-right: 2px !important;
+    // }
 
-    button:hover {
-      background-color: rgb(0, 120, 212);
-      color: #fff;
-      font-weight: 600;
-    }
+    // button:hover {
+    //   background-color: rgb(0, 120, 212);
+    //   color: #fff;
+    //   font-weight: 600;
+    // }
 
-    button[aria-selected="true"]:focus {
-      outline: 2px rgb(0, 120, 212) solid;
-      border: 2px rgb(238, 231, 231) solid;
-      background-color: rgb(0, 120, 212);
-      color: #fff;
-      font-weight: 600;
-      margin-right: 2px;
-    }
+    // button[aria-selected="true"]:focus {
+    //   outline: 2px rgb(0, 120, 212) solid;
+    //   border: 2px rgb(238, 231, 231) solid;
+    //   background-color: rgb(0, 120, 212);
+    //   color: #fff;
+    //   font-weight: 600;
+    //   margin-right: 2px;
+    // }
+  }
+  .alphabets .button {
+    margin-right: 2px !important;
+  }
+
+  .alphabets  .button:hover {
+    background-color: rgb(0, 120, 212);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .alphabets .button[aria-selected="true"]:focus {
+    outline: 2px rgb(0, 120, 212) solid;
+    border: 2px rgb(238, 231, 231) solid;
+    background-color: rgb(0, 120, 212);
+    color: #fff;
+    font-weight: 600;
+    margin-right: 2px;
   }
 
   .searchTextBox {
