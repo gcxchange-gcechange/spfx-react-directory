@@ -76,7 +76,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
 
     ChatService.getChats(accessToken, activeAccount).then((chatData) => {
       if (chatData) {
-        console.log("chatData", chatData);
+        // console.log("chatData", chatData);
 
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         const users = state.users;
@@ -132,7 +132,7 @@ const PersonaCardMain: React.FC<IReactDirectoryProps> = (props) => {
       }
     });
 
-    console.log("chatList", chatList);
+    // console.log("chatList", chatList);
   };
 
   const strings: ISpfxReactDirectoryWebpartWebPartStrings = SelectLanguage(props.prefLang);
